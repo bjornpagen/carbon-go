@@ -1,6 +1,7 @@
 package carbon
 
 import (
+	"fmt"
 	"io"
 
 	"github.com/valyala/bytebufferpool"
@@ -47,8 +48,8 @@ func Button(children Component) *button {
 	}
 }
 
-func (b *button) Attrs(attrs ...Attr) *button {
-	b.attrs = attrs
+func (b *button) Attr(name string, value string) *button {
+	b.attrs = append(b.attrs, Attr{name, value})
 	return b
 }
 
@@ -65,7 +66,7 @@ func (b *button) Kind(kind string) *button {
 func (b *button) Size(size string) *button {
 	var sizes = []string{"default", "field", "sm", "lg", "xl"}
 	if slices.Contains(sizes, size) == false {
-		panic("invalid size")
+		panic("invalid size, options are: " + fmt.Sprintf("%v", sizes))
 	}
 
 	b.size = size
@@ -125,6 +126,7 @@ func (b *button) Type(type_ string) *button {
 func (b *button) Render(w io.Writer) {
 	hasIconOnly := b.icon != nil && b.children == nil
 	ariaPressed := ternary(hasIconOnly && b.kind == "ghost" && b.href == "", b.isSelected, false)
+	renderIconInButton := renderIconInButtonClosure(b.icon, b.iconDescription)
 
 	class := bytebufferpool.Get()
 	defer bytebufferpool.Put(class)
@@ -173,65 +175,71 @@ func (b *button) Render(w io.Writer) {
 		class.WriteString(` bx--btn--selected`)
 	}
 
-	attrs := slices.Clone(b.attrs)
-	attrs = append(attrs, Attr{"class", class.String()})
-	attrs = append(attrs, Attr{"aria-pressed", ternary(ariaPressed, "true", "false")})
+	attrs := append(b.attrs, Attr{"class", class.String()}, Attr{"aria-pressed", ternary(ariaPressed, "true", "false")})
 
 	if b.skeleton {
 		panic("not implemented")
 	}
 
-	if b.href != "" && b.disabled == false {
-		if hasIconOnly {
-			children := Fragment(
-				Raw(`<span class="bx--assistive-text">`),
-				Raw(b.iconDescription),
-				Raw(`</span>`),
-				b.icon,
-			)
+	if b.href != "" && b.disabled == false && hasIconOnly {
+		w.Write([]byte("<a"))
+		renderAttrs(w, attrs)
+		w.Write([]byte(" href=\""))
+		w.Write([]byte(b.href))
+		w.Write([]byte("\">"))
+		w.Write([]byte("<span class=\"bx--assistive-text\">"))
+		w.Write(yoloBytesUnsafe(b.iconDescription))
+		w.Write([]byte("</span>"))
+		b.icon.Render(w)
+		w.Write([]byte("</a>"))
 
-			render(w, "a", append(attrs, Attr{"href", b.href}), children)
-			return
-		}
-
-		children := Fragment(
-			b.children,
-			wrapIcon(b.icon, b.iconDescription),
-		)
-		render(w, "a", append(attrs, Attr{"href", b.href}), children)
 		return
-	} else {
-		if hasIconOnly {
-			children := Fragment(
-				Raw(`<span class="bx--assistive-text">`),
-				Raw(b.iconDescription),
-				Raw(`</span>`),
-				b.icon,
-			)
-
-			render(w, "button", attrs, children)
-			return
-		} else {
-			children := Fragment(
-				b.children,
-				wrapIcon(b.icon, b.iconDescription),
-			)
-			render(w, "button", attrs, children)
-			return
-		}
 	}
+
+	if b.href != "" && b.disabled == false {
+		w.Write([]byte("<a"))
+		renderAttrs(w, attrs)
+		w.Write([]byte(" href=\""))
+		w.Write([]byte(b.href))
+		w.Write([]byte("\">"))
+		b.children.Render(w)
+		renderIconInButton(w)
+		w.Write([]byte("</a>"))
+
+		return
+	}
+
+	if hasIconOnly {
+		w.Write([]byte("<button"))
+		renderAttrs(w, attrs)
+		w.Write([]byte(">"))
+		w.Write([]byte("<span class=\"bx--assistive-text\">"))
+		w.Write(yoloBytesUnsafe(b.iconDescription))
+		w.Write([]byte("</span>"))
+		b.icon.Render(w)
+		w.Write([]byte("</button>"))
+
+		return
+	}
+
+	w.Write([]byte("<button"))
+	renderAttrs(w, attrs)
+	w.Write([]byte(">"))
+	b.children.Render(w)
+	renderIconInButton(w)
+	w.Write([]byte("</button>"))
 }
 
-func wrapIcon(icon Component, description string) Component {
+func renderIconInButtonClosure(icon Component, description string) func(w io.Writer) {
 	if icon == nil {
-		return nil
+		return func(w io.Writer) {}
 	}
 
-	return Fragment(
-		Raw(`<div aria-hidden="true" class="bx--btn__icon" style="display: contents;" aria-label="`),
-		Raw(description),
-		Raw(`">`),
-		icon,
-		Raw(`</div>`),
-	)
+	return func(w io.Writer) {
+		w.Write([]byte(`<div aria-hidden="true" class="bx--btn__icon" style="display: contents;" aria-label="`))
+		w.Write([]byte(description))
+		w.Write([]byte(`">`))
+		icon.Render(w)
+		w.Write([]byte(`</div>`))
+	}
 }
