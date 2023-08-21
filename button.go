@@ -9,8 +9,8 @@ import (
 )
 
 type button struct {
-	children Component
-	attrs    []Attr
+	attrs   []Attr
+	content Component
 
 	kind             string
 	size             string
@@ -20,7 +20,6 @@ type button struct {
 	iconDescription  string
 	tooltipAlignment string
 	tooltipPosition  string
-	skeleton         bool
 	disabled         bool
 	href             string
 	type_            string
@@ -28,10 +27,10 @@ type button struct {
 
 var _ Component = (*button)(nil)
 
-func Button(children Component) *button {
+func Button() *button {
 	return &button{
-		children: children,
-		attrs:    nil,
+		content: nil,
+		attrs:   nil,
 
 		kind:             "primary",
 		size:             "default",
@@ -39,9 +38,8 @@ func Button(children Component) *button {
 		isSelected:       false,
 		icon:             nil,
 		iconDescription:  "",
-		tooltipAlignment: "",
-		tooltipPosition:  "",
-		skeleton:         false,
+		tooltipAlignment: "center",
+		tooltipPosition:  "bottom",
 		disabled:         false,
 		href:             "",
 		type_:            "button",
@@ -50,6 +48,11 @@ func Button(children Component) *button {
 
 func (b *button) Attr(name string, value string) Component {
 	b.attrs = append(b.attrs, Attr{name, value})
+	return b
+}
+
+func (b *button) Content(content Component) *button {
+	b.content = content
 	return b
 }
 
@@ -103,11 +106,6 @@ func (b *button) TooltipPosition(tooltipPosition string) *button {
 	return b
 }
 
-func (b *button) Skeleton(v bool) *button {
-	b.skeleton = v
-	return b
-}
-
 func (b *button) Disabled(v bool) *button {
 	b.disabled = v
 	return b
@@ -124,7 +122,10 @@ func (b *button) Type(type_ string) *button {
 }
 
 func (b *button) Render(w io.Writer) {
-	hasIconOnly := b.icon != nil && b.children == nil
+	hasIconOnly := b.icon != nil && b.content == nil
+	if hasIconOnly && b.iconDescription == "" {
+		panic("iconDescription is required when icon is specified")
+	}
 	ariaPressed := ternary(hasIconOnly && b.kind == "ghost" && b.href == "", b.isSelected, false)
 	renderIconInButton := renderIconInButtonClosure(b.icon, b.iconDescription)
 
@@ -177,10 +178,6 @@ func (b *button) Render(w io.Writer) {
 
 	attrs := append(b.attrs, Attr{"class", class.String()}, Attr{"aria-pressed", ternary(ariaPressed, "true", "false")})
 
-	if b.skeleton {
-		panic("not implemented")
-	}
-
 	if b.href != "" && b.disabled == false && hasIconOnly {
 		w.Write([]byte("<a"))
 		renderAttrs(w, attrs)
@@ -202,7 +199,7 @@ func (b *button) Render(w io.Writer) {
 		w.Write([]byte(" href=\""))
 		w.Write([]byte(b.href))
 		w.Write([]byte("\">"))
-		b.children.Render(w)
+		b.content.Render(w)
 		renderIconInButton(w)
 		w.Write([]byte("</a>"))
 
@@ -225,7 +222,7 @@ func (b *button) Render(w io.Writer) {
 	w.Write([]byte("<button"))
 	renderAttrs(w, attrs)
 	w.Write([]byte(">"))
-	b.children.Render(w)
+	b.content.Render(w)
 	renderIconInButton(w)
 	w.Write([]byte("</button>"))
 }
