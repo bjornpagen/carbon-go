@@ -57,7 +57,7 @@ func TextInput() *textInput {
 	}
 }
 
-func (t *textInput) Attr(name string, value string) *textInput {
+func (t *textInput) Attr(name string, value string) Component {
 	t.attrs = append(t.attrs, Attr{name, value})
 	return t
 }
@@ -209,16 +209,13 @@ func (t *textInput) Render(w io.Writer) {
 
 		{
 			if t.readonly {
-				panic(`not implemented: <EditOff class="bx--text-input__readonly-icon" />`)
+				EditOff().Attr("class", "bx--text-input__readonly-icon").Render(w)
 			} else {
 				if t.invalid {
-					panic(`not implemented: <WarningFilled class="bx--text-input__invalid-icon" />`)
+					WarningFilled().Attr("class", "bx--text-input__invalid-icon").Render(w)
 				}
 				if !t.invalid && t.warn {
-					panic(`not implemented: <WarningAltFilled
-					class="bx--text-input__invalid-icon
-					bx--text-input__invalid-icon--warning"
-				  />`)
+					WarningAltFilled().Attr("class", "bx--text-input__invalid-icon bx--text-input__invalid-icon--warning").Render(w)
 				}
 			}
 			w.Write([]byte(`<input`))

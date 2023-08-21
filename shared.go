@@ -10,6 +10,7 @@ import (
 )
 
 type Component interface {
+	Attr(name string, value string) Component
 	Render(w io.Writer)
 }
 
@@ -36,6 +37,10 @@ func Raw(s string) Component {
 
 func Text(s string) Component {
 	return text{escape(sanitize(s))}
+}
+
+func (t text) Attr(name string, value string) Component {
+	return t
 }
 
 func (t text) Render(w io.Writer) {

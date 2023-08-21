@@ -48,7 +48,7 @@ func Button(children Component) *button {
 	}
 }
 
-func (b *button) Attr(name string, value string) *button {
+func (b *button) Attr(name string, value string) Component {
 	b.attrs = append(b.attrs, Attr{name, value})
 	return b
 }
@@ -236,10 +236,6 @@ func renderIconInButtonClosure(icon Component, description string) func(w io.Wri
 	}
 
 	return func(w io.Writer) {
-		w.Write([]byte(`<div aria-hidden="true" class="bx--btn__icon" style="display: contents;" aria-label="`))
-		w.Write([]byte(description))
-		w.Write([]byte(`">`))
-		icon.Render(w)
-		w.Write([]byte(`</div>`))
+		icon.Attr("class", "bx--btn__icon").Attr("aria-hidden", "true").Attr("aria-label", description).Render(w)
 	}
 }

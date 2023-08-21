@@ -52,7 +52,7 @@ func TestButtonExpressiveXl(t *testing.T) {
 func TestButtonWithIcon(t *testing.T) {
 	svg := `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" preserveAspectRatio="xMidYMid meet" width="16" height="16" aria-hidden="true" role="img" style="margin-left: 0" aria-label="Tooltip text" class="bx--btn__icon"><path d="M17 15L17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"></path></svg>`
 
-	expected := `<button class="bx--btn bx--btn--primary" aria-pressed="false">Hello, world!<div aria-hidden="true" class="bx--btn__icon" style="display: contents;" aria-label="Tooltip text">` + svg + `</div></button>`
+	expected := `<button class="bx--btn bx--btn--primary" aria-pressed="false">Hello, world!<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" preserveAspectRatio="xMidYMid meet" width="16" height="16" aria-hidden="true" role="img" style="margin-left: 0" aria-label="Tooltip text" class="bx--btn__icon"><path d="M17 15L17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"></path></svg></button>`
 	b := &bytes.Buffer{}
 	Button(Raw("Hello, world!")).Icon(Raw(svg)).IconDescription("Tooltip text").Render(b)
 	if b.String() != expected {
