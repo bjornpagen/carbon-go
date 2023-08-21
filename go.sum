@@ -1,0 +1,6 @@
+github.com/sym01/htmlsanitizer v1.0.1 h1:a+r9gDExjeJsvENRTW/cxyGuloCJF0s1dcwr83MctGY=
+github.com/sym01/htmlsanitizer v1.0.1/go.mod h1:zazTkJ727MJTDrNcWDaOLlAgGMcsDNG94LJi6vYl6Ug=
+github.com/valyala/bytebufferpool v1.0.0 h1:GqA5TC/0021Y/b9FG4Oi9Mr3q7XYx6KllzawFIhcdPw=
+github.com/valyala/bytebufferpool v1.0.0/go.mod h1:6bBcMArwyJ5K/AmCkWv1jt77kVWyCJ6HpOuEn7z0Csc=
+golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63 h1:m64FZMko/V45gv0bNmrNYoDEq8U5YUhetc9cBWKS1TQ=
+golang.org/x/exp v0.0.0-20230817173708-d852ddb80c63/go.mod h1:0v4NqG35kSWCMzLaMeX+IQrlSnVE/bqGSyC2cz/9Le8=
