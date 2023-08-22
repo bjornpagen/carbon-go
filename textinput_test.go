@@ -2,6 +2,7 @@ package carbon
 
 import (
 	"bytes"
+	"io"
 	"math/rand"
 	"testing"
 )
@@ -140,8 +141,7 @@ func TestTextInputAttr(t *testing.T) {
 
 func BenchmarkTextInputRender(b *testing.B) {
 	input := TextInput()
-	buf := bytes.Buffer{}
 	for i := 0; i < b.N; i++ {
-		input.Render(&buf)
+		input.Render(io.Discard)
 	}
 }

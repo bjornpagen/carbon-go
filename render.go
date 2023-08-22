@@ -26,3 +26,9 @@ func getAttr(attrs []Attr, name string) string {
 
 	return ""
 }
+
+func renderAll(components []Component, w io.Writer) {
+	for _, component := range components {
+		component.Render(w)
+	}
+}

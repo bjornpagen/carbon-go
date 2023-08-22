@@ -2,6 +2,7 @@ package carbon
 
 import (
 	"bytes"
+	"io"
 	"testing"
 )
 
@@ -134,6 +135,6 @@ func TestButtonIconOnlyGhostSelected(t *testing.T) {
 func BenchmarkButtonRender(b *testing.B) {
 	btn := Button().Content(Raw("Hello, world!"))
 	for i := 0; i < b.N; i++ {
-		btn.Render(&bytes.Buffer{})
+		btn.Render(io.Discard)
 	}
 }

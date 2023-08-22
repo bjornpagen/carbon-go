@@ -3,8 +3,8 @@ package carbon
 import "io"
 
 type grid struct {
-	content Component
-	attrs   []Attr
+	children []Component
+	attrs    []Attr
 
 	as            string
 	condensed     bool
@@ -18,12 +18,12 @@ type grid struct {
 
 var _ Component = (*grid)(nil)
 
-func Grid(c Component) *grid {
+func Grid(c ...Component) *grid {
 	return &grid{
-		content: c,
-		attrs:   nil,
+		children: c,
+		attrs:    nil,
 
-		as:            "",
+		as:            "div",
 		condensed:     false,
 		narrow:        false,
 		fullWidth:     false,
@@ -81,11 +81,7 @@ func (g *grid) Padding(padding bool) *grid {
 
 func (g *grid) Render(w io.Writer) {
 	w.Write([]byte("<"))
-	if g.as != "" {
-		w.Write(yoloBytesUnsafe(g.as))
-	} else {
-		w.Write([]byte("div"))
-	}
+	w.Write(yoloBytesUnsafe(g.as))
 	w.Write([]byte(` class="bx--grid`))
 	if g.condensed {
 		w.Write([]byte(` bx--grid--condensed`))
@@ -111,12 +107,8 @@ func (g *grid) Render(w io.Writer) {
 	w.Write([]byte(`"`))
 	renderAttrs(w, g.attrs)
 	w.Write([]byte(`>`))
-	g.content.Render(w)
+	renderAll(g.children, w)
 	w.Write([]byte("</"))
-	if g.as != "" {
-		w.Write(yoloBytesUnsafe(g.as))
-	} else {
-		w.Write([]byte("div"))
-	}
+	w.Write(yoloBytesUnsafe(g.as))
 	w.Write([]byte(">"))
 }
