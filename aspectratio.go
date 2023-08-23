@@ -5,7 +5,7 @@ import (
 )
 
 type aspectRatio struct {
-	children Component
+	children []Component
 	attrs    []Attr
 
 	ratio string
@@ -15,7 +15,7 @@ var _ Component = (*aspectRatio)(nil)
 
 func AspectRatio(cs ...Component) *aspectRatio {
 	return &aspectRatio{
-		children: ternary(len(cs) == 1, cs[0], Fragment(cs...)),
+		children: cs,
 		attrs:    nil,
 
 		ratio: "2x1",
@@ -80,7 +80,9 @@ func (a *aspectRatio) Render(w io.Writer) {
 	w.Write([]byte(`>`))
 	{
 		w.Write([]byte(`<div class="bx--aspect-ratio--object">`))
-		a.children.Render(w)
+		for _, c := range a.children {
+			c.Render(w)
+		}
 		w.Write([]byte(`</div>`))
 	}
 	w.Write([]byte(`</div>`))

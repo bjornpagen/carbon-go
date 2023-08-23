@@ -6,7 +6,7 @@ import (
 )
 
 type accordion struct {
-	children Component
+	children []*accordionItem
 	attrs    []Attr
 
 	align    string
@@ -16,13 +16,13 @@ type accordion struct {
 
 var _ Component = (*accordion)(nil)
 
-func Accordion(cs ...Component) *accordion {
+func Accordion(cs ...*accordionItem) *accordion {
 	return &accordion{
-		children: ternary(len(cs) == 1, cs[0], Fragment(cs...)),
+		children: cs,
 		attrs:    nil,
 
 		align:    "end",
-		size:     "default",
+		size:     "",
 		disabled: false,
 	}
 }
@@ -42,7 +42,7 @@ func (a *accordion) Align(align string) *accordion {
 }
 
 func (a *accordion) Size(size string) *accordion {
-	sizes := []string{"default", "sm", "lg"}
+	sizes := []string{"", "sm", "lg"}
 	if !slices.Contains(sizes, size) {
 		panic("Size() received an invalid value")
 	}
@@ -72,6 +72,8 @@ func (a *accordion) Render(w io.Writer) {
 	w.Write([]byte(`"`))
 	renderAttrs(w, a.attrs)
 	w.Write([]byte(`>`))
-	a.children.Render(w)
+	for _, child := range a.children {
+		child.Render(w)
+	}
 	w.Write([]byte(`</ul>`))
 }

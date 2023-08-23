@@ -90,3 +90,7 @@ func WarningAltFilled() *iconComponent {
 func ChevronRight() *iconComponent {
 	return icon([]byte(`<path d="M22 16L12 26 10.6 24.6 19.2 16 10.6 7.4 12 6z"></path>`))
 }
+
+func ChevronDown() *iconComponent {
+	return icon([]byte(`<path d="M16 22L6 12 7.4 10.6 16 19.2 24.6 10.6 26 12z"></path>`))
+}

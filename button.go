@@ -33,7 +33,7 @@ func Button() *button {
 		attrs:   nil,
 
 		kind:             "primary",
-		size:             "default",
+		size:             "",
 		expressive:       false,
 		isSelected:       false,
 		icon:             nil,
@@ -67,7 +67,7 @@ func (b *button) Kind(kind string) *button {
 }
 
 func (b *button) Size(size string) *button {
-	var sizes = []string{"default", "field", "sm", "lg", "xl"}
+	var sizes = []string{"", "field", "sm", "lg", "xl"}
 	if slices.Contains(sizes, size) == false {
 		panic("invalid size, options are: " + fmt.Sprintf("%v", sizes))
 	}

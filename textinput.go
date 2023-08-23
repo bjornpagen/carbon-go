@@ -36,7 +36,7 @@ func TextInput() *textInput {
 	return &textInput{
 		attrs: nil,
 
-		size:        "default",
+		size:        "",
 		value:       "",
 		placeholder: "",
 		light:       false,
@@ -63,7 +63,7 @@ func (t *textInput) Attr(name string, value string) Component {
 }
 
 func (t *textInput) Size(size string) *textInput {
-	var sizes = []string{"default", "sm", "xl"}
+	var sizes = []string{"", "sm", "xl"}
 	if slices.Contains(sizes, size) == false {
 		panic("invalid size, options are: " + fmt.Sprintf("%v", sizes))
 	}

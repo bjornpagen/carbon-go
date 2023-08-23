@@ -3,7 +3,7 @@ package carbon
 import "io"
 
 type grid struct {
-	children Component
+	children []Component
 	attrs    []Attr
 
 	as            string
@@ -20,7 +20,7 @@ var _ Component = (*grid)(nil)
 
 func Grid(c ...Component) *grid {
 	return &grid{
-		children: ternary(len(c) == 1, c[0], Fragment(c...)),
+		children: c,
 		attrs:    nil,
 
 		as:            "div",
@@ -107,7 +107,11 @@ func (g *grid) Render(w io.Writer) {
 	w.Write([]byte(`"`))
 	renderAttrs(w, g.attrs)
 	w.Write([]byte(`>`))
-	g.children.Render(w)
+	{
+		for _, child := range g.children {
+			child.Render(w)
+		}
+	}
 	w.Write([]byte("</"))
 	w.Write(yoloBytesUnsafe(g.as))
 	w.Write([]byte(">"))
