@@ -6,7 +6,7 @@ import (
 )
 
 type accordion struct {
-	children []accordionItem
+	children Component
 	attrs    []Attr
 
 	align    string
@@ -16,9 +16,9 @@ type accordion struct {
 
 var _ Component = (*accordion)(nil)
 
-func Accordion(children ...accordionItem) *accordion {
+func Accordion(cs ...Component) *accordion {
 	return &accordion{
-		children: children,
+		children: ternary(len(cs) == 1, cs[0], Fragment(cs...)),
 		attrs:    nil,
 
 		align:    "end",
@@ -72,10 +72,6 @@ func (a *accordion) Render(w io.Writer) {
 	w.Write([]byte(`"`))
 	renderAttrs(w, a.attrs)
 	w.Write([]byte(`>`))
-	cs := make([]Component, len(a.children))
-	for i := range a.children {
-		cs[i] = &a.children[i]
-	}
-	renderAll(cs, w)
+	a.children.Render(w)
 	w.Write([]byte(`</ul>`))
 }

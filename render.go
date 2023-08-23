@@ -9,11 +9,11 @@ type Attr struct {
 
 func renderAttrs(w io.Writer, attrs []Attr) {
 	for _, attr := range attrs {
-		w.Write([]byte(" "))
+		w.Write([]byte(` `))
 		w.Write(yoloBytesUnsafe(attr.Name))
-		w.Write([]byte("=\""))
+		w.Write([]byte(`="`))
 		w.Write(yoloBytesUnsafe(attr.Value))
-		w.Write([]byte("\""))
+		w.Write([]byte(`"`))
 	}
 }
 
@@ -25,10 +25,4 @@ func getAttr(attrs []Attr, name string) string {
 	}
 
 	return ""
-}
-
-func renderAll(components []Component, w io.Writer) {
-	for _, component := range components {
-		component.Render(w)
-	}
 }
