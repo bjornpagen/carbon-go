@@ -23,6 +23,7 @@ func escape(s string) string {
 }
 
 func sanitize(s string) string {
+	//TODO: use https://github.com/microcosm-cc/bluemonday
 	s, err := htmlsanitizer.SanitizeString(s)
 	if err != nil {
 		return ""
