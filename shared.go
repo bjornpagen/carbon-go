@@ -86,3 +86,28 @@ func randomString(n int) string {
 	}
 	return string(b)
 }
+
+type Attr struct {
+	Name  string
+	Value string
+}
+
+func renderAttrs(w io.Writer, attrs []Attr) {
+	for _, attr := range attrs {
+		w.Write([]byte(` `))
+		w.Write(yoloBytesUnsafe(attr.Name))
+		w.Write([]byte(`="`))
+		w.Write(yoloBytesUnsafe(attr.Value))
+		w.Write([]byte(`"`))
+	}
+}
+
+func getAttr(attrs []Attr, name string) string {
+	for _, attr := range attrs {
+		if attr.Name == name {
+			return attr.Value
+		}
+	}
+
+	return ""
+}
