@@ -69,9 +69,7 @@ func (a *accordionItem) Render(w io.Writer) {
 	if a.disabled {
 		w.Write([]byte(` bx--accordion__item--disabled`))
 	}
-	w.Write([]byte(`"`))
-	renderAttrs(w, a.attrs)
-	w.Write([]byte(`>`))
+	w.Write([]byte(`">`))
 	{
 		w.Write([]byte(`<button type="button" class="bx--accordion__heading"`))
 		w.Write([]byte(` title="`))
@@ -90,6 +88,7 @@ func (a *accordionItem) Render(w io.Writer) {
 			a.title.Render(w)
 			w.Write([]byte(`</div>`))
 		}
+		renderAttrs(w, a.attrs)
 		w.Write([]byte(`</button>`))
 		w.Write([]byte(`<div class="bx--accordion__content">`))
 		a.children.Render(w)
