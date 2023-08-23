@@ -137,29 +137,3 @@ func BenchmarkAccordionCustomTitle(b *testing.B) {
 		a.Render(&bytes.Buffer{})
 	}
 }
-
-func BenchmarkAccordionCustomTitleFast(b *testing.B) {
-	a := Accordion(
-		AccordionItem().TitleComponent(
-			Raw("<h5>Natural Language Classifier</h5><p>AI / Machine Learning</p>"),
-		).Content(
-			Raw("<p>Natural Language Classifier uses advanced natural language processing and machine learning techniques to create custom classification models. Users train their data and the service predicts the appropriate category for the inputted text.</p>"),
-		),
-		AccordionItem().TitleComponent(
-			Raw("<h5>Natural Language Understanding</h5><p>AI / Machine Learning</p>"),
-		).Content(
-			Raw("<p>Analyze text to extract meta-data from content such as concepts, entities, emotion, relations, sentiment and more.</p>"),
-		),
-		AccordionItem().TitleComponent(
-			Raw("<h5>Language Translator</h5><p>AI / Machine Learning</p>"),
-		).Content(
-			Raw("<p>Translate text, documents, and websites from one language to another. Create industry or region-specific translations via the service's customization capability.</p>"),
-		),
-	)
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		a.Render(&bytes.Buffer{})
-	}
-}
