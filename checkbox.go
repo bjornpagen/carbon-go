@@ -53,8 +53,8 @@ func (c *checkbox) Checked(checked bool) *checkbox {
 
 func (c *checkbox) Indeterminate(indeterminate bool) *checkbox {
 	panic("not implemented")
-	c.indeterminate = indeterminate
-	return c
+	// c.indeterminate = indeterminate
+	// return c
 }
 
 func (c *checkbox) Required(required bool) *checkbox {
