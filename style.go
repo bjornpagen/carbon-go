@@ -58,7 +58,7 @@ func (s *style) NoDefaultFonts() *style {
 	return s
 }
 
-func (s *style) Custom(style string) *style {
+func (s *style) WithCustom(style string) *style {
 	minified, err := m.String("text/css", style)
 	if err != nil {
 		panic(err)
