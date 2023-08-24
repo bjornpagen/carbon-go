@@ -21,6 +21,12 @@ func (f *foo) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
+put HTMX tags on your component like this:
+
+```go
+carbon.Button("Hello world!").Attr("hx-get", "https://example.com").Attr("hx-swap", "outerHTML").Render(w)
+```
+
 ---
 
 currently documentation sucks. just look at the docs for [carbon design svelte](https://carbon-components-svelte.onrender.com/).
