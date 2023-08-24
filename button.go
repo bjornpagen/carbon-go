@@ -51,11 +51,6 @@ func (b *button) Attr(name string, value string) Component {
 	return b
 }
 
-func (b *button) Children(children ...any) *button {
-	b.children = children
-	return b
-}
-
 func (b *button) Kind(kind string) *button {
 	var kinds = []string{"primary", "secondary", "tertiary", "ghost", "danger", "danger-tertiary", "danger-ghost"}
 	if slices.Contains(kinds, kind) == false {

@@ -37,34 +37,18 @@ func renderAny(w io.Writer, a any) {
 	}
 }
 
-type text struct {
-	string
-}
-
 func escape(s string) string {
 	return html.EscapeString(s)
 }
 
 func sanitize(s string) string {
 	//TODO: use https://github.com/microcosm-cc/bluemonday
-	s, err := htmlsanitizer.SanitizeString(s)
-	if err != nil {
-		return ""
-	}
-
-	return s
+	r, _ := htmlsanitizer.SanitizeString(s)
+	return r
 }
 
-func Sanitized(s string) Component {
-	return text{escape(sanitize(s))}
-}
-
-func (t text) Attr(name string, value string) Component {
-	return t
-}
-
-func (t text) Render(w io.Writer) {
-	io.WriteString(w, t.string)
+func Escaped(s string) string {
+	return escape(sanitize(s))
 }
 
 func ternary[T any](condition bool, a, b T) T {

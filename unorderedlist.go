@@ -27,11 +27,6 @@ func (u *unorderedList) Attr(name string, value string) Component {
 	return u
 }
 
-func (u *unorderedList) Children(children ...any) *unorderedList {
-	u.children = children
-	return u
-}
-
 func (u *unorderedList) Nested(nested bool) *unorderedList {
 	u.nested = nested
 	return u

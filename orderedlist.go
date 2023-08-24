@@ -29,11 +29,6 @@ func (o *orderedList) Attr(name string, value string) Component {
 	return o
 }
 
-func (o *orderedList) Children(children ...any) *orderedList {
-	o.children = children
-	return o
-}
-
 func (o *orderedList) Nested(nested bool) *orderedList {
 	o.nested = nested
 	return o

@@ -25,11 +25,6 @@ func (b *buttonSet) Attr(name string, value string) Component {
 	return b
 }
 
-func (b *buttonSet) Children(children ...*button) *buttonSet {
-	b.children = children
-	return b
-}
-
 func (b *buttonSet) Stacked(stacked bool) *buttonSet {
 	b.stacked = stacked
 	return b

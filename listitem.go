@@ -21,11 +21,6 @@ func (l *listItem) Attr(name string, value string) Component {
 	return l
 }
 
-func (l *listItem) Children(children ...any) *listItem {
-	l.children = children
-	return l
-}
-
 func (l *listItem) Render(w io.Writer) {
 	w.Write([]byte(`<li class="bx--list__item"`))
 	renderAttrs(w, l.attrs)

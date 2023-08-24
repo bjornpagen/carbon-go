@@ -10,7 +10,7 @@ func TestButtonPrimary(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--primary" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Render(b)
+	Button("Hello, world!").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -24,7 +24,7 @@ func TestButtonSecondary(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--secondary" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Kind("secondary").Render(b)
+	Button("Hello, world!").Kind("secondary").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -34,7 +34,7 @@ func TestButtonTertiary(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--tertiary" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Kind("tertiary").Render(b)
+	Button("Hello, world!").Kind("tertiary").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -44,7 +44,7 @@ func TestButtonGhost(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--ghost" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Kind("ghost").Render(b)
+	Button("Hello, world!").Kind("ghost").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -54,7 +54,7 @@ func TestButtonDanger(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--danger" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Kind("danger").Render(b)
+	Button("Hello, world!").Kind("danger").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -83,7 +83,7 @@ func TestButtonDisabled(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--primary bx--btn--disabled" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Disabled(true).Render(b)
+	Button("Hello, world!").Disabled(true).Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -93,7 +93,7 @@ func TestButtonDangerGhost(t *testing.T) {
 	expected := `<button class="bx--btn bx--btn--danger-ghost" aria-pressed="false">Hello, world!</button>`
 
 	b := &bytes.Buffer{}
-	Button().Children("Hello, world!").Kind("danger-ghost").Render(b)
+	Button("Hello, world!").Kind("danger-ghost").Render(b)
 	if b.String() != expected {
 		t.Errorf("got %s, want %s", b.String(), expected)
 	}
@@ -130,7 +130,7 @@ func TestButtonIconOnlyGhostSelected(t *testing.T) {
 }
 
 func BenchmarkButtonRender(b *testing.B) {
-	btn := Button().Children("Hello, world!")
+	btn := Button("Hello, world!")
 	for i := 0; i < b.N; i++ {
 		btn.Render(io.Discard)
 	}
