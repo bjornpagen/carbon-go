@@ -15,8 +15,10 @@ var baseCss string
 //go:embed css/font-family.css
 var fontFamily string
 
+var m *minify.M
+
 func init() {
-	m := minify.New()
+	m = minify.New()
 	m.AddFunc("text/css", css.Minify)
 	errs := merrors.New()
 	var err error
@@ -57,7 +59,11 @@ func (s *style) NoDefaultFonts() *style {
 }
 
 func (s *style) Custom(style string) *style {
-	s.styles = append(s.styles, style)
+	minified, err := m.String("text/css", style)
+	if err != nil {
+		panic(err)
+	}
+	s.styles = append(s.styles, minified)
 	return s
 }
 
