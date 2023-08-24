@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+// TODO: autogenerate these
+
 func icon(path []byte) *iconComponent {
 	return &iconComponent{
 		attrs: nil,
@@ -101,4 +103,8 @@ func Add() *iconComponent {
 
 func Delete() *iconComponent {
 	return icon([]byte(`<path d="M12 12H14V24H12zM18 12H20V24H18z"></path><path d="M4 6V8H6V28a2 2 0 002 2H24a2 2 0 002-2V8h2V6zM8 28V8H24V28zM12 2H20V4H12z"></path>`))
+}
+
+func Checkmark() *iconComponent {
+	return icon([]byte(`<path d="M13 24L4 15 5.414 13.586 13 21.171 26.586 7.586 28 9 13 24z"></path>`))
 }
