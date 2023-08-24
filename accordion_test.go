@@ -20,13 +20,13 @@ func TestAccordionWithItems(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	Accordion(
-		AccordionItem().Title("Natural Language Classifier").Content(
+		AccordionItem().Title("Natural Language Classifier").Children(
 			`<p>Natural Language Classifier uses advanced natural language processing and machine learning techniques to create custom classification models. Users train their data and the service predicts the appropriate category for the inputted text.</p>`,
 		),
-		AccordionItem().Title("Natural Language Understanding").Content(
+		AccordionItem().Title("Natural Language Understanding").Children(
 			`<p>Analyze text to extract meta-data from content such as concepts, entities, emotion, relations, sentiment and more.</p>`,
 		),
-		AccordionItem().Title("Language Translator").Content(
+		AccordionItem().Title("Language Translator").Children(
 			`<p>Translate text, documents, and websites from one language to another. Create industry or region-specific translations via the service's customization capability.</p>`,
 		),
 	).Render(b)
@@ -40,13 +40,13 @@ func TestAccordionFirstItemOpen(t *testing.T) {
 
 	b := &bytes.Buffer{}
 	Accordion(
-		AccordionItem().Title("Natural Language Classifier").Content(
+		AccordionItem().Title("Natural Language Classifier").Children(
 			`<p>Natural Language Classifier uses advanced natural language processing and machine learning techniques to create custom classification models. Users train their data and the service predicts the appropriate category for the inputted text.</p>`,
 		).Open(true),
-		AccordionItem().Title("Natural Language Understanding").Content(
+		AccordionItem().Title("Natural Language Understanding").Children(
 			`<p>Analyze text to extract meta-data from content such as concepts, entities, emotion, relations, sentiment and more.</p>`,
 		),
-		AccordionItem().Title("Language Translator").Content(
+		AccordionItem().Title("Language Translator").Children(
 			`<p>Translate text, documents, and websites from one language to another. Create industry or region-specific translations via the service's customization capability.</p>`,
 		),
 	).Render(b)

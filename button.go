@@ -27,9 +27,9 @@ type button struct {
 
 var _ Component = (*button)(nil)
 
-func Button() *button {
+func Button(children ...any) *button {
 	return &button{
-		children: nil,
+		children: children,
 		attrs:    nil,
 
 		kind:             "primary",

@@ -14,9 +14,9 @@ type accordionItem struct {
 
 var _ Component = (*accordionItem)(nil)
 
-func AccordionItem() *accordionItem {
+func AccordionItem(children ...any) *accordionItem {
 	return &accordionItem{
-		children: nil,
+		children: children,
 		attrs:    nil,
 
 		title:           "title",
@@ -26,8 +26,8 @@ func AccordionItem() *accordionItem {
 	}
 }
 
-func (a *accordionItem) Content(content ...any) *accordionItem {
-	a.children = content
+func (a *accordionItem) Children(children ...any) *accordionItem {
+	a.children = children
 	return a
 }
 
