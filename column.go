@@ -11,7 +11,6 @@ type column struct {
 	children []Component
 	attrs    []Attr
 
-	as            string
 	noGutter      bool
 	noGutterLeft  bool
 	noGutterRight bool
@@ -32,7 +31,6 @@ func Column(c ...Component) *column {
 		children: c,
 		attrs:    nil,
 
-		as:            "div",
 		noGutter:      false,
 		noGutterLeft:  false,
 		noGutterRight: false,
@@ -49,11 +47,6 @@ func Column(c ...Component) *column {
 
 func (c *column) Attr(name string, value string) Component {
 	c.attrs = append(c.attrs, Attr{name, value})
-	return c
-}
-
-func (c *column) As(as string) *column {
-	c.as = as
 	return c
 }
 
@@ -129,9 +122,7 @@ func (c *column) Max(b int8) *column {
 func (c *column) Render(w io.Writer) {
 	var _isColumnClass bool
 
-	w.Write([]byte("<"))
-	w.Write(yoloBytesUnsafe(c.as))
-	w.Write([]byte(` class="`))
+	w.Write([]byte(`<div class="`))
 
 	var allowedBreakpoints = []string{"sm", "md", "lg", "xlg", "max"}
 	for _, breakpoint := range allowedBreakpoints {
@@ -188,7 +179,5 @@ func (c *column) Render(w io.Writer) {
 			child.Render(w)
 		}
 	}
-	w.Write([]byte("</"))
-	w.Write(yoloBytesUnsafe(c.as))
-	w.Write([]byte(">"))
+	w.Write([]byte("</div>"))
 }

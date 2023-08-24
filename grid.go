@@ -6,7 +6,6 @@ type grid struct {
 	children []Component
 	attrs    []Attr
 
-	as            string
 	condensed     bool
 	narrow        bool
 	fullWidth     bool
@@ -23,7 +22,6 @@ func Grid(c ...Component) *grid {
 		children: c,
 		attrs:    nil,
 
-		as:            "div",
 		condensed:     false,
 		narrow:        false,
 		fullWidth:     false,
@@ -36,11 +34,6 @@ func Grid(c ...Component) *grid {
 
 func (g *grid) Attr(name string, value string) Component {
 	g.attrs = append(g.attrs, Attr{name, value})
-	return g
-}
-
-func (g *grid) As(as string) *grid {
-	g.as = as
 	return g
 }
 
@@ -80,9 +73,7 @@ func (g *grid) Padding(padding bool) *grid {
 }
 
 func (g *grid) Render(w io.Writer) {
-	w.Write([]byte("<"))
-	w.Write(yoloBytesUnsafe(g.as))
-	w.Write([]byte(` class="bx--grid`))
+	w.Write([]byte(`<div class="bx--grid`))
 	if g.condensed {
 		w.Write([]byte(` bx--grid--condensed`))
 	}
@@ -112,7 +103,5 @@ func (g *grid) Render(w io.Writer) {
 			child.Render(w)
 		}
 	}
-	w.Write([]byte("</"))
-	w.Write(yoloBytesUnsafe(g.as))
-	w.Write([]byte(">"))
+	w.Write([]byte("</div>"))
 }

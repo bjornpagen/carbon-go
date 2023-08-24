@@ -6,7 +6,6 @@ type row struct {
 	children []Component
 	attrs    []Attr
 
-	as            string
 	condensed     bool
 	narrow        bool
 	noGutter      bool
@@ -22,7 +21,6 @@ func Row(c ...Component) *row {
 		children: c,
 		attrs:    nil,
 
-		as:            "div",
 		condensed:     false,
 		narrow:        false,
 		noGutter:      false,
@@ -34,11 +32,6 @@ func Row(c ...Component) *row {
 
 func (r *row) Attr(name string, value string) Component {
 	r.attrs = append(r.attrs, Attr{name, value})
-	return r
-}
-
-func (r *row) As(as string) *row {
-	r.as = as
 	return r
 }
 
@@ -73,9 +66,7 @@ func (r *row) Padding(padding bool) *row {
 }
 
 func (r *row) Render(w io.Writer) {
-	w.Write([]byte("<"))
-	w.Write(yoloBytesUnsafe(r.as))
-	w.Write([]byte(` class="bx--row`))
+	w.Write([]byte(`<div class="bx--row`))
 	if r.condensed {
 		w.Write([]byte(` bx--row--condensed`))
 	}
@@ -102,7 +93,5 @@ func (r *row) Render(w io.Writer) {
 			child.Render(w)
 		}
 	}
-	w.Write([]byte("</"))
-	w.Write(yoloBytesUnsafe(r.as))
-	w.Write([]byte(">"))
+	w.Write([]byte("</div>"))
 }
