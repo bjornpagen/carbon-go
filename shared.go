@@ -20,7 +20,7 @@ func renderAny(w io.Writer, a any) {
 		for _, a := range a {
 			renderAny(w, a)
 		}
-	case Component:
+	case interface{ Render(io.Writer) }:
 		a.Render(w)
 	case func(io.Writer):
 		a(w)
