@@ -10,7 +10,7 @@ import (
 )
 
 type Component interface {
-	Attr(name string, value string) Component
+	Attr(name, value string) Component
 	Render(w io.Writer)
 }
 
