@@ -9,8 +9,8 @@ type header struct {
 	isSideNavOpen        bool
 	uiShellAriaLabel     string
 	href                 string
-	company              []Component
-	platformName         []Component
+	company              any
+	platformName         any
 	persistHamburgerMenu bool
 	expansionBreakpoint  int16
 }
@@ -57,12 +57,12 @@ func (h *header) Href(href string) *header {
 	return h
 }
 
-func (h *header) Company(company ...Component) *header {
+func (h *header) Company(company ...any) *header {
 	h.company = company
 	return h
 }
 
-func (h *header) PlatformName(platformName ...Component) *header {
+func (h *header) PlatformName(platformName ...any) *header {
 	h.platformName = platformName
 	return h
 }
@@ -86,18 +86,12 @@ func (h *header) Render(w io.Writer) {
 		w.Write(yoloBytesUnsafe(h.href))
 		w.Write([]byte(`">`))
 		{
-			if len(h.company) > 0 {
+			if h.company != nil {
 				w.Write([]byte(`<span class="bx--header__name--prefix">`))
-				for _, child := range h.company {
-					child.Render(w)
-				}
+				renderAny(w, h.company)
 				w.Write([]byte(`</span>`))
 			}
-			if len(h.platformName) > 0 {
-				for _, child := range h.platformName {
-					child.Render(w)
-				}
-			}
+			renderAny(w, h.platformName)
 		}
 		w.Write([]byte(`</a>`))
 	}

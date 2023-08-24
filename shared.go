@@ -1,6 +1,7 @@
 package carbon
 
 import (
+	"fmt"
 	"html"
 	"io"
 	"math/rand"
@@ -12,6 +13,29 @@ import (
 type Component interface {
 	Attr(name string, value string) Component
 	Render(w io.Writer)
+}
+
+func renderAny(w io.Writer, a any) {
+	switch a := a.(type) {
+	case []any:
+		for _, a := range a {
+			renderAny(w, a)
+		}
+	case Component:
+		a.Render(w)
+	case func(io.Writer):
+		a(w)
+	case []byte:
+		w.Write(a)
+	case string:
+		w.Write(yoloBytesUnsafe(a))
+	case fmt.Stringer:
+		w.Write(yoloBytesUnsafe(a.String()))
+	case nil:
+		// ignore
+	default:
+		panic(fmt.Sprintf("unsupported type %T", a))
+	}
 }
 
 type text struct {
@@ -32,11 +56,7 @@ func sanitize(s string) string {
 	return s
 }
 
-func Raw(s string) Component {
-	return text{s}
-}
-
-func Text(s string) Component {
+func Sanitized(s string) Component {
 	return text{escape(sanitize(s))}
 }
 

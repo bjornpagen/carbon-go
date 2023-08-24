@@ -3,7 +3,7 @@ package carbon
 import "io"
 
 type content struct {
-	children []Component
+	children any
 	attrs    []Attr
 
 	id string
@@ -11,9 +11,9 @@ type content struct {
 
 var _ Component = (*content)(nil)
 
-func Content(cs ...Component) *content {
+func Content(a ...any) *content {
 	return &content{
-		children: cs,
+		children: a,
 		attrs:    nil,
 
 		id: "main-content",
@@ -34,8 +34,6 @@ func (c *content) Render(w io.Writer) {
 	w.Write([]byte(`<main id="`))
 	w.Write(yoloBytesUnsafe(c.id))
 	w.Write([]byte(`" class="bx--content">`))
-	for _, child := range c.children {
-		child.Render(w)
-	}
+	renderAny(w, c.children)
 	w.Write([]byte(`</main>`))
 }

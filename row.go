@@ -3,7 +3,7 @@ package carbon
 import "io"
 
 type row struct {
-	children []Component
+	children any
 	attrs    []Attr
 
 	condensed     bool
@@ -16,9 +16,9 @@ type row struct {
 
 var _ Component = (*row)(nil)
 
-func Row(c ...Component) *row {
+func Row(a ...any) *row {
 	return &row{
-		children: c,
+		children: a,
 		attrs:    nil,
 
 		condensed:     false,
@@ -89,9 +89,7 @@ func (r *row) Render(w io.Writer) {
 	renderAttrs(w, r.attrs)
 	w.Write([]byte(`>`))
 	{
-		for _, child := range r.children {
-			child.Render(w)
-		}
+		renderAny(w, r.children)
 	}
 	w.Write([]byte("</div>"))
 }

@@ -8,7 +8,7 @@ import (
 )
 
 type column struct {
-	children []Component
+	children []*row
 	attrs    []Attr
 
 	noGutter      bool
@@ -26,7 +26,7 @@ type column struct {
 
 var _ Component = (*column)(nil)
 
-func Column(c ...Component) *column {
+func Column(c ...*row) *column {
 	return &column{
 		children: c,
 		attrs:    nil,

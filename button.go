@@ -9,8 +9,8 @@ import (
 )
 
 type button struct {
-	attrs   []Attr
-	content Component
+	attrs    []Attr
+	children any
 
 	kind             string
 	size             string
@@ -29,8 +29,8 @@ var _ Component = (*button)(nil)
 
 func Button() *button {
 	return &button{
-		content: nil,
-		attrs:   nil,
+		children: nil,
+		attrs:    nil,
 
 		kind:             "primary",
 		size:             "",
@@ -51,8 +51,8 @@ func (b *button) Attr(name string, value string) Component {
 	return b
 }
 
-func (b *button) Content(content Component) *button {
-	b.content = content
+func (b *button) Children(children ...any) *button {
+	b.children = children
 	return b
 }
 
@@ -122,7 +122,7 @@ func (b *button) Type(type_ string) *button {
 }
 
 func (b *button) Render(w io.Writer) {
-	hasIconOnly := b.icon != nil && b.content == nil
+	hasIconOnly := b.icon != nil && b.children == nil
 	if hasIconOnly && b.iconDescription == "" {
 		panic("iconDescription is required when icon is specified")
 	}
@@ -187,7 +187,7 @@ func (b *button) Render(w io.Writer) {
 		w.Write([]byte("<span class=\"bx--assistive-text\">"))
 		w.Write(yoloBytesUnsafe(b.iconDescription))
 		w.Write([]byte("</span>"))
-		b.icon.Render(w)
+		b.icon.Attr("class", "bx--btn__icon").Attr("aria-hidden", "true").Attr("aria-label", b.iconDescription).Render(w)
 		w.Write([]byte("</a>"))
 
 		return
@@ -199,7 +199,7 @@ func (b *button) Render(w io.Writer) {
 		w.Write([]byte(" href=\""))
 		w.Write([]byte(b.href))
 		w.Write([]byte("\">"))
-		b.content.Render(w)
+		renderAny(w, b.children)
 		renderIconInButton(w)
 		w.Write([]byte("</a>"))
 
@@ -213,7 +213,7 @@ func (b *button) Render(w io.Writer) {
 		w.Write([]byte("<span class=\"bx--assistive-text\">"))
 		w.Write(yoloBytesUnsafe(b.iconDescription))
 		w.Write([]byte("</span>"))
-		b.icon.Render(w)
+		b.icon.Attr("class", "bx--btn__icon").Attr("aria-hidden", "true").Attr("aria-label", b.iconDescription).Render(w)
 		w.Write([]byte("</button>"))
 
 		return
@@ -222,7 +222,7 @@ func (b *button) Render(w io.Writer) {
 	w.Write([]byte("<button"))
 	renderAttrs(w, attrs)
 	w.Write([]byte(">"))
-	b.content.Render(w)
+	renderAny(w, b.children)
 	renderIconInButton(w)
 	w.Write([]byte("</button>"))
 }

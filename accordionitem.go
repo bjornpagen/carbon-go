@@ -3,10 +3,10 @@ package carbon
 import "io"
 
 type accordionItem struct {
-	children []Component
+	children any
 	attrs    []Attr
 
-	title           []Component
+	title           any
 	open            bool
 	disabled        bool
 	iconDescription string
@@ -19,15 +19,15 @@ func AccordionItem() *accordionItem {
 		children: nil,
 		attrs:    nil,
 
-		title:           []Component{Raw("title")},
+		title:           "title",
 		open:            false,
 		disabled:        false,
 		iconDescription: "Expand/Collapse",
 	}
 }
 
-func (a *accordionItem) Content(cs ...Component) *accordionItem {
-	a.children = cs
+func (a *accordionItem) Content(content ...any) *accordionItem {
+	a.children = content
 	return a
 }
 
@@ -36,8 +36,8 @@ func (a *accordionItem) Attr(name string, value string) Component {
 	return a
 }
 
-func (a *accordionItem) Title(title string) *accordionItem {
-	a.title = []Component{Raw(title)}
+func (a *accordionItem) Title(title ...any) *accordionItem {
+	a.title = title
 	return a
 }
 
@@ -86,9 +86,7 @@ func (a *accordionItem) Render(w io.Writer) {
 			ChevronRight().Attr("class", "bx--accordion__arrow").Attr("aria-label", a.iconDescription).Render(w)
 			w.Write([]byte(`<div class="bx--accordion__title">`))
 			{
-				for _, child := range a.title {
-					child.Render(w)
-				}
+				renderAny(w, a.title)
 			}
 			w.Write([]byte(`</div>`))
 		}
@@ -96,9 +94,7 @@ func (a *accordionItem) Render(w io.Writer) {
 		w.Write([]byte(`</button>`))
 		w.Write([]byte(`<div class="bx--accordion__content">`))
 		{
-			for _, child := range a.children {
-				child.Render(w)
-			}
+			renderAny(w, a.children)
 		}
 		w.Write([]byte(`</div>`))
 	}

@@ -3,7 +3,7 @@ package carbon
 import "io"
 
 type grid struct {
-	children []Component
+	children []*column
 	attrs    []Attr
 
 	condensed     bool
@@ -17,7 +17,7 @@ type grid struct {
 
 var _ Component = (*grid)(nil)
 
-func Grid(c ...Component) *grid {
+func Grid(c ...*column) *grid {
 	return &grid{
 		children: c,
 		attrs:    nil,

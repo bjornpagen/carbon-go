@@ -94,3 +94,11 @@ func ChevronRight() *iconComponent {
 func ChevronDown() *iconComponent {
 	return icon([]byte(`<path d="M16 22L6 12 7.4 10.6 16 19.2 24.6 10.6 26 12z"></path>`))
 }
+
+func Add() *iconComponent {
+	return icon([]byte(`<path d="M16 16V8h-2v8H6v2h8v8h2v-8h8v-2z"></path>`))
+}
+
+func Delete() *iconComponent {
+	return icon([]byte(`<path d="M12 12H14V24H12zM18 12H20V24H18z"></path><path d="M4 6V8H6V28a2 2 0 002 2H24a2 2 0 002-2V8h2V6zM8 28V8H24V28zM12 2H20V4H12z"></path>`))
+}
