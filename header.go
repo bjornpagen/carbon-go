@@ -89,7 +89,7 @@ func (h *header) Render(w io.Writer) {
 			if h.company != nil {
 				w.Write([]byte(`<span class="bx--header__name--prefix">`))
 				renderAny(w, h.company)
-				w.Write([]byte(`</span>`))
+				w.Write([]byte(`&nbsp;</span>`))
 			}
 			renderAny(w, h.platformName)
 		}
