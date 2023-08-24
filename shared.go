@@ -5,7 +5,6 @@ import (
 	"html"
 	"io"
 	"math/rand"
-	"unsafe"
 
 	"github.com/sym01/htmlsanitizer"
 )
@@ -28,9 +27,9 @@ func renderAny(w io.Writer, a any) {
 	case []byte:
 		w.Write(a)
 	case string:
-		w.Write(yoloBytesUnsafe(a))
+		io.WriteString(w, a)
 	case fmt.Stringer:
-		w.Write(yoloBytesUnsafe(a.String()))
+		io.WriteString(w, a.String())
 	case nil:
 		// ignore
 	default:
@@ -65,11 +64,7 @@ func (t text) Attr(name string, value string) Component {
 }
 
 func (t text) Render(w io.Writer) {
-	w.Write(yoloBytesUnsafe(t.string))
-}
-
-func yoloBytesUnsafe(s string) []byte {
-	return *(*[]byte)(unsafe.Pointer(&s))
+	io.WriteString(w, t.string)
 }
 
 func ternary[T any](condition bool, a, b T) T {
@@ -115,9 +110,9 @@ type Attr struct {
 func renderAttrs(w io.Writer, attrs []Attr) {
 	for _, attr := range attrs {
 		w.Write([]byte(` `))
-		w.Write(yoloBytesUnsafe(attr.Name))
+		io.WriteString(w, attr.Name)
 		w.Write([]byte(`="`))
-		w.Write(yoloBytesUnsafe(attr.Value))
+		io.WriteString(w, attr.Value)
 		w.Write([]byte(`"`))
 	}
 }

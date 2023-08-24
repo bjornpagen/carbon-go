@@ -79,11 +79,11 @@ func (h *header) ExpansionBreakpoint(expansionBreakpoint int16) *header {
 
 func (h *header) Render(w io.Writer) {
 	w.Write([]byte(`<header class="bx--header" aria-label="`))
-	w.Write(yoloBytesUnsafe(h.uiShellAriaLabel))
+	io.WriteString(w, h.uiShellAriaLabel)
 	w.Write([]byte(`">`))
 	{
 		w.Write([]byte(`<a class="bx--header__name" href="`))
-		w.Write(yoloBytesUnsafe(h.href))
+		io.WriteString(w, h.href)
 		w.Write([]byte(`">`))
 		{
 			if h.company != nil {

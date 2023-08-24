@@ -73,7 +73,7 @@ func (a *accordionItem) Render(w io.Writer) {
 	{
 		w.Write([]byte(`<button type="button" class="bx--accordion__heading"`))
 		w.Write([]byte(` title="`))
-		w.Write(yoloBytesUnsafe(a.iconDescription))
+		io.WriteString(w, a.iconDescription)
 		w.Write([]byte(`"`))
 		w.Write([]byte(` aria-expanded="`))
 		w.Write(ternary(a.open, []byte(`true`), []byte(`false`)))

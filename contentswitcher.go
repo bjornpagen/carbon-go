@@ -48,7 +48,7 @@ func (c *contentSwitcher) Render(w io.Writer) {
 	w.Write([]byte(`<div role="tablist" class="bx--content-switcher`))
 	if c.size != "" {
 		w.Write([]byte(` bx--content-switcher--`))
-		w.Write(yoloBytesUnsafe(c.size))
+		io.WriteString(w, c.size)
 	}
 	w.Write([]byte(`">`))
 	{

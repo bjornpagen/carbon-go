@@ -74,7 +74,7 @@ func (a *aspectRatio) Set1x2() *aspectRatio {
 
 func (a *aspectRatio) Render(w io.Writer) {
 	w.Write([]byte(`<div class="bx--aspect-ratio bx--aspect-ratio--`))
-	w.Write(yoloBytesUnsafe(a.ratio))
+	io.WriteString(w, a.ratio)
 	w.Write([]byte(`"`))
 	renderAttrs(w, a.attrs)
 	w.Write([]byte(`>`))

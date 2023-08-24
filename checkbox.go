@@ -101,7 +101,7 @@ func (c *checkbox) Render(w io.Writer) {
 	w.Write([]byte(`<div class="bx--form-item bx--checkbox-wrapper">`))
 	{
 		w.Write([]byte(`<input type="checkbox" value="`))
-		w.Write(yoloBytesUnsafe(c.value))
+		io.WriteString(w, c.value)
 		w.Write([]byte(`"`))
 		if c.checked {
 			w.Write([]byte(` checked`))
@@ -110,11 +110,11 @@ func (c *checkbox) Render(w io.Writer) {
 			w.Write([]byte(` disabled`))
 		}
 		w.Write([]byte(` id="`))
-		w.Write(yoloBytesUnsafe(c.id))
+		io.WriteString(w, c.id)
 		w.Write([]byte(`"`))
 		if c.name != "" {
 			w.Write([]byte(` name="`))
-			w.Write(yoloBytesUnsafe(c.name))
+			io.WriteString(w, c.name)
 			w.Write([]byte(`"`))
 		}
 		if c.required {
@@ -126,11 +126,11 @@ func (c *checkbox) Render(w io.Writer) {
 		w.Write([]byte(` class="bx--checkbox"`))
 		renderAttrs(w, c.attrs)
 		w.Write([]byte(`/><label for="`))
-		w.Write(yoloBytesUnsafe(c.id))
+		io.WriteString(w, c.id)
 		w.Write([]byte(`"`))
 		if c.title != "" {
 			w.Write([]byte(` title="`))
-			w.Write(yoloBytesUnsafe(c.title))
+			io.WriteString(w, c.title)
 			w.Write([]byte(`"`))
 		}
 		w.Write([]byte(` class="bx--checkbox-label">`))
@@ -141,7 +141,7 @@ func (c *checkbox) Render(w io.Writer) {
 			}
 			w.Write([]byte(`">`))
 			{
-				w.Write(yoloBytesUnsafe(c.labelText))
+				io.WriteString(w, c.labelText)
 			}
 			w.Write([]byte(`</span>`))
 		}

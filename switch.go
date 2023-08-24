@@ -57,7 +57,7 @@ func (s *switch_) Render(w io.Writer) {
 	{
 		w.Write([]byte(`<span class="bx--content-switcher__label">`))
 		{
-			w.Write(yoloBytesUnsafe(s.text))
+			io.WriteString(w, s.text)
 		}
 		w.Write([]byte(`</span>`))
 	}

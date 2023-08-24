@@ -32,7 +32,7 @@ func (c *content) Id(id string) *content {
 
 func (c *content) Render(w io.Writer) {
 	w.Write([]byte(`<main id="`))
-	w.Write(yoloBytesUnsafe(c.id))
+	io.WriteString(w, c.id)
 	w.Write([]byte(`" class="bx--content">`))
 	renderAny(w, c.children)
 	w.Write([]byte(`</main>`))

@@ -101,10 +101,10 @@ func (t *toggle) Render(w io.Writer) {
 		w.Write([]byte(`<input role="switch" type="checkbox" class="bx--toggle-input`))
 		if t.size != "" {
 			w.Write([]byte(` bx--toggle-input--`))
-			w.Write(yoloBytesUnsafe(t.size))
+			io.WriteString(w, t.size)
 		}
 		w.Write([]byte(`" id="`))
-		w.Write(yoloBytesUnsafe(t.id))
+		io.WriteString(w, t.id)
 		w.Write([]byte(`"`))
 		if t.toggled {
 			w.Write([]byte(` checked`))
@@ -114,15 +114,15 @@ func (t *toggle) Render(w io.Writer) {
 		}
 		if t.name != "" {
 			w.Write([]byte(` name="`))
-			w.Write(yoloBytesUnsafe(t.name))
+			io.WriteString(w, t.name)
 			w.Write([]byte(`"`))
 		}
 		renderAttrs(w, t.attrs)
 		w.Write([]byte(` />`))
 		w.Write([]byte(`<label for="`))
-		w.Write(yoloBytesUnsafe(t.id))
+		io.WriteString(w, t.id)
 		w.Write([]byte(`" aria-label="`))
-		w.Write(yoloBytesUnsafe(ariaLabel))
+		io.WriteString(w, ariaLabel)
 		w.Write([]byte(`" class="bx--toggle-input__label">`))
 		{
 			w.Write([]byte(`<span`))
@@ -131,19 +131,19 @@ func (t *toggle) Render(w io.Writer) {
 			}
 			w.Write([]byte(`>`))
 			{
-				w.Write(yoloBytesUnsafe(t.labelText))
+				io.WriteString(w, t.labelText)
 			}
 			w.Write([]byte(`</span>`))
 			w.Write([]byte(`<span class="bx--toggle__switch">`))
 			{
 				w.Write([]byte(`<span aria-hidden="true" class="bx--toggle__text--off">`))
 				{
-					w.Write(yoloBytesUnsafe(t.labelA))
+					io.WriteString(w, t.labelA)
 				}
 				w.Write([]byte(`</span>`))
 				w.Write([]byte(`<span aria-hidden="true" class="bx--toggle__text--on">`))
 				{
-					w.Write(yoloBytesUnsafe(t.labelB))
+					io.WriteString(w, t.labelB)
 				}
 				w.Write([]byte(`</span>`))
 			}

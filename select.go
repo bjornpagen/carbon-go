@@ -166,7 +166,7 @@ func (s *select_) Render(w io.Writer) {
 	{
 		if !s.noLabel {
 			w.Write([]byte(`<label for="`))
-			w.Write(yoloBytesUnsafe(s.id))
+			io.WriteString(w, s.id)
 			w.Write([]byte(`" class="bx--label`))
 			if s.hideLabel {
 				w.Write([]byte(` bx--visually-hidden`))
@@ -176,7 +176,7 @@ func (s *select_) Render(w io.Writer) {
 			}
 			w.Write([]byte(`">`))
 			{
-				w.Write(yoloBytesUnsafe(s.labelText))
+				io.WriteString(w, s.labelText)
 			}
 			w.Write([]byte(`</label>`))
 		}
@@ -200,10 +200,10 @@ func (s *select_) Render(w io.Writer) {
 				w.Write([]byte(`</div>`))
 				if s.invalid {
 					w.Write([]byte(`<div class="bx--form-requirement" id="`))
-					w.Write(yoloBytesUnsafe(errorId))
+					io.WriteString(w, errorId)
 					w.Write([]byte(`">`))
 					{
-						w.Write(yoloBytesUnsafe(s.invalidText))
+						io.WriteString(w, s.invalidText)
 					}
 					w.Write([]byte(`</div>`))
 				}
@@ -215,7 +215,7 @@ func (s *select_) Render(w io.Writer) {
 					}
 					w.Write([]byte(`">`))
 					{
-						w.Write(yoloBytesUnsafe(s.helperText))
+						io.WriteString(w, s.helperText)
 					}
 					w.Write([]byte(`</div>`))
 				}
@@ -248,25 +248,25 @@ func (s *select_) Render(w io.Writer) {
 				}
 				w.Write([]byte(`">`))
 				{
-					w.Write(yoloBytesUnsafe(s.helperText))
+					io.WriteString(w, s.helperText)
 				}
 				w.Write([]byte(`</div>`))
 			}
 			if s.invalid {
 				w.Write([]byte(`<div id="`))
-				w.Write(yoloBytesUnsafe(errorId))
+				io.WriteString(w, errorId)
 				w.Write([]byte(`" class="bx--form-requirement">`))
 				{
-					w.Write(yoloBytesUnsafe(s.invalidText))
+					io.WriteString(w, s.invalidText)
 				}
 				w.Write([]byte(`</div>`))
 			}
 			if !s.invalid && s.warn {
 				w.Write([]byte(`<div id="`))
-				w.Write(yoloBytesUnsafe(errorId))
+				io.WriteString(w, errorId)
 				w.Write([]byte(`" class="bx--form-requirement">`))
 				{
-					w.Write(yoloBytesUnsafe(s.warnText))
+					io.WriteString(w, s.warnText)
 				}
 				w.Write([]byte(`</div>`))
 			}
@@ -280,7 +280,7 @@ func renderSelectClosure(invalid, disabled, required bool, errorId, id, name, si
 		w.Write([]byte(`<select`))
 		if invalid {
 			w.Write([]byte(` aria-describedby="`))
-			w.Write(yoloBytesUnsafe(errorId))
+			io.WriteString(w, errorId)
 			w.Write([]byte(`" aria-invalid`))
 		}
 		if disabled {
@@ -290,9 +290,9 @@ func renderSelectClosure(invalid, disabled, required bool, errorId, id, name, si
 			w.Write([]byte(` required`))
 		}
 		w.Write([]byte(` id="`))
-		w.Write(yoloBytesUnsafe(id))
+		io.WriteString(w, id)
 		w.Write([]byte(`" name="`))
-		w.Write(yoloBytesUnsafe(name))
+		io.WriteString(w, name)
 		w.Write([]byte(`" class="bx--select-input`))
 		switch size {
 		case "sm":

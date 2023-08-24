@@ -50,16 +50,16 @@ func (i *iconComponent) Render(w io.Writer) {
 	role := ternary(labelled != "", "img", "")
 
 	w.Write([]byte(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" preserveAspectRatio="xMidYMid meet" width="`))
-	w.Write(yoloBytesUnsafe(strconv.Itoa(i.size)))
+	io.WriteString(w, strconv.Itoa(i.size))
 	w.Write([]byte(`" height="`))
-	w.Write(yoloBytesUnsafe(strconv.Itoa(i.size)))
+	io.WriteString(w, strconv.Itoa(i.size))
 	w.Write([]byte(`"`))
 	if ariaHidden {
 		w.Write([]byte(` aria-hidden="true"`))
 	}
 	if role != "" {
 		w.Write([]byte(` role="`))
-		w.Write(yoloBytesUnsafe(role))
+		io.WriteString(w, role)
 		w.Write([]byte(`"`))
 	}
 	renderAttrs(w, i.attrs)
@@ -67,7 +67,7 @@ func (i *iconComponent) Render(w io.Writer) {
 	{
 		if i.title != "" {
 			w.Write([]byte(`<title>`))
-			w.Write(yoloBytesUnsafe(i.title))
+			io.WriteString(w, i.title)
 			w.Write([]byte(`</title>`))
 		}
 		w.Write(i.path)

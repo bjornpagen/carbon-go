@@ -228,28 +228,28 @@ func (t *textInput) Render(w io.Writer) {
 			describedBy := ternary(error, errorId, ternary(t.warn, warnId, ternary(t.helperText != "", helperId, "")))
 			if describedBy != "" {
 				w.Write([]byte(` aria-describedby="`))
-				w.Write(yoloBytesUnsafe(describedBy))
+				io.WriteString(w, describedBy)
 				w.Write([]byte(`"`))
 			}
 			if t.disabled {
 				w.Write([]byte(` disabled`))
 			}
 			w.Write([]byte(` id="`))
-			w.Write(yoloBytesUnsafe(t.id))
+			io.WriteString(w, t.id)
 			w.Write([]byte(`"`))
 			if t.name != "" {
 				w.Write([]byte(` name="`))
-				w.Write(yoloBytesUnsafe(t.name))
+				io.WriteString(w, t.name)
 				w.Write([]byte(`"`))
 			}
 			if t.placeholder != "" {
 				w.Write([]byte(` placeholder="`))
-				w.Write(yoloBytesUnsafe(t.placeholder))
+				io.WriteString(w, t.placeholder)
 				w.Write([]byte(`"`))
 			}
 			if t.value != "" {
 				w.Write([]byte(` value="`))
-				w.Write(yoloBytesUnsafe(t.value))
+				io.WriteString(w, t.value)
 				w.Write([]byte(`"`))
 			}
 			if t.required {
@@ -270,7 +270,7 @@ func (t *textInput) Render(w io.Writer) {
 			}
 			if t.size == "sm" || t.size == "xl" {
 				w.Write([]byte(` bx--text-input--`))
-				w.Write(yoloBytesUnsafe(t.size))
+				io.WriteString(w, t.size)
 			}
 			w.Write([]byte(`"`))
 			renderAttrs(w, t.attrs)
@@ -280,16 +280,16 @@ func (t *textInput) Render(w io.Writer) {
 			}
 			if t.isFluid && !t.inline && t.invalid {
 				w.Write([]byte(`<div class="bx--form-requirement" id="`))
-				w.Write(yoloBytesUnsafe(errorId))
+				io.WriteString(w, errorId)
 				w.Write([]byte(`">`))
-				w.Write(yoloBytesUnsafe(t.invalidText))
+				io.WriteString(w, t.invalidText)
 				w.Write([]byte(`</div>`))
 			}
 			if t.isFluid && !t.inline && t.warn {
 				w.Write([]byte(`<div class="bx--form-requirement" id="`))
-				w.Write(yoloBytesUnsafe(warnId))
+				io.WriteString(w, warnId)
 				w.Write([]byte(`">`))
-				w.Write(yoloBytesUnsafe(t.warnText))
+				io.WriteString(w, t.warnText)
 				w.Write([]byte(`</div>`))
 			}
 		}
@@ -297,7 +297,7 @@ func (t *textInput) Render(w io.Writer) {
 
 		if !t.invalid && !t.warn && !t.isFluid && !t.inline && t.helperText != "" {
 			w.Write([]byte(`<div id="`))
-			w.Write(yoloBytesUnsafe(helperId))
+			io.WriteString(w, helperId)
 			w.Write([]byte(`" class="bx--form__helper-text`))
 			if t.disabled {
 				w.Write([]byte(` bx--form__helper-text--disabled`))
@@ -306,21 +306,21 @@ func (t *textInput) Render(w io.Writer) {
 				w.Write([]byte(` bx--form__helper-text--inline`))
 			}
 			w.Write([]byte(`">`))
-			w.Write(yoloBytesUnsafe(t.helperText))
+			io.WriteString(w, t.helperText)
 			w.Write([]byte(`</div>`))
 		}
 		if !t.isFluid && t.invalid {
 			w.Write([]byte(`<div class="bx--form-requirement" id="`))
-			w.Write(yoloBytesUnsafe(errorId))
+			io.WriteString(w, errorId)
 			w.Write([]byte(`">`))
-			w.Write(yoloBytesUnsafe(t.invalidText))
+			io.WriteString(w, t.invalidText)
 			w.Write([]byte(`</div>`))
 		}
 		if !t.isFluid && !t.invalid && t.warn {
 			w.Write([]byte(`<div class="bx--form-requirement" id="`))
-			w.Write(yoloBytesUnsafe(warnId))
+			io.WriteString(w, warnId)
 			w.Write([]byte(`">`))
-			w.Write(yoloBytesUnsafe(t.warnText))
+			io.WriteString(w, t.warnText)
 			w.Write([]byte(`</div>`))
 		}
 	}
@@ -331,7 +331,7 @@ func (t *textInput) Render(w io.Writer) {
 func renderLabelTextClosure(forId string, hideLabel, disabled, inline bool, size, labelText string) func(io.Writer) {
 	return func(w io.Writer) {
 		w.Write([]byte(`<label for="`))
-		w.Write(yoloBytesUnsafe(forId))
+		io.WriteString(w, forId)
 		w.Write([]byte(`" class="bx--label`))
 		if hideLabel {
 			w.Write([]byte(` bx--visually-hidden`))
@@ -344,10 +344,10 @@ func renderLabelTextClosure(forId string, hideLabel, disabled, inline bool, size
 		}
 		if size == "sm" || size == "xl" {
 			w.Write([]byte(` bx--label--inline--`))
-			w.Write(yoloBytesUnsafe(size))
+			io.WriteString(w, size)
 		}
 		w.Write([]byte(`">`))
-		w.Write(yoloBytesUnsafe(labelText))
+		io.WriteString(w, labelText)
 		w.Write([]byte(`</label>`))
 	}
 }
@@ -362,7 +362,7 @@ func renderHelperTextClosure(disabled, inline bool, helperText string) func(io.W
 			w.Write([]byte(` bx--form__helper-text--inline`))
 		}
 		w.Write([]byte(`">`))
-		w.Write(yoloBytesUnsafe(helperText))
+		io.WriteString(w, helperText)
 		w.Write([]byte(`</div>`))
 	}
 }

@@ -145,9 +145,9 @@ func (c *column) Render(w io.Writer) {
 				w.Write([]byte(" "))
 			}
 			w.Write([]byte("bx--col-"))
-			w.Write(yoloBytesUnsafe(breakpoint))
+			io.WriteString(w, breakpoint)
 			w.Write([]byte("-"))
-			w.Write(yoloBytesUnsafe(strconv.Itoa(int(v))))
+			io.WriteString(w, strconv.Itoa(int(v)))
 			_isColumnClass = true
 		}
 	}
@@ -166,7 +166,7 @@ func (c *column) Render(w io.Writer) {
 	}
 	if c.aspectRatio != "" {
 		w.Write([]byte(" bx--aspect-ratio bx--aspect-ratio--"))
-		w.Write(yoloBytesUnsafe(c.aspectRatio))
+		io.WriteString(w, c.aspectRatio)
 	}
 	if c.padding {
 		w.Write([]byte(" bx--col-padding"))

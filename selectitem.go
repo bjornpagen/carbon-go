@@ -55,7 +55,7 @@ func (s *selectItem) Render(w io.Writer) {
 	w.Write([]byte(`<option`))
 	if s.value != "" {
 		w.Write([]byte(` value="`))
-		w.Write(yoloBytesUnsafe(s.value))
+		io.WriteString(w, s.value)
 		w.Write([]byte(`"`))
 	}
 	if s.disabled {
@@ -70,9 +70,9 @@ func (s *selectItem) Render(w io.Writer) {
 	w.Write([]byte(` class="bx--select-option">`))
 	{
 		if s.text != "" {
-			w.Write(yoloBytesUnsafe(s.text))
+			io.WriteString(w, s.text)
 		} else {
-			w.Write(yoloBytesUnsafe(s.value))
+			io.WriteString(w, s.value)
 		}
 	}
 	w.Write([]byte(`</option>`))
