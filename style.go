@@ -4,44 +4,35 @@ import (
 	_ "embed"
 	"io"
 
-	"github.com/efficientgo/core/merrors"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
 )
 
 //go:embed css/base.css
-var baseCss string
+var BaseCss string
 
 //go:embed css/font-family.css
-var fontFamily string
+var FontFamilyCss string
 
 var m *minify.M
 
 func init() {
 	m = minify.New()
 	m.AddFunc("text/css", css.Minify)
-	errs := merrors.New()
-	var err error
-	baseCss, err = m.String("text/css", baseCss)
-	errs.Add(err)
-	fontFamily, err = m.String("text/css", fontFamily)
-	errs.Add(err)
-	if errs.Err() != nil {
-		panic(errs.Err())
-	}
 }
 
 var _ Component = (*style)(nil)
 
 type style struct {
-	attr []Attr
-
-	noDefaultFonts bool
+	attr  []Attr
+	style string
 }
 
-func Style() *style {
+func Style(s string) *style {
+	s, _ = m.String("text/css", s)
 	return &style{
-		noDefaultFonts: false,
+		attr:  nil,
+		style: s,
 	}
 }
 
@@ -50,16 +41,12 @@ func (s *style) Attr(name string, value string) Component {
 	return s
 }
 
-func (s *style) NoDefaultFonts() *style {
-	s.noDefaultFonts = true
-	return s
-}
-
 func (s *style) Render(w io.Writer) {
-	w.Write([]byte(`<style>`))
-	w.Write([]byte(baseCss))
-	if !s.noDefaultFonts {
-		w.Write([]byte(fontFamily))
+	w.Write([]byte(`<style`))
+	renderAttrs(w, s.attr)
+	w.Write([]byte(`>`))
+	{
+		io.WriteString(w, s.style)
 	}
 	w.Write([]byte(`</style>`))
 }
