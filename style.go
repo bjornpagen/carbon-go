@@ -34,16 +34,13 @@ func init() {
 var _ Component = (*style)(nil)
 
 type style struct {
-	attr   []Attr
-	styles []string
+	attr []Attr
 
 	noDefaultFonts bool
 }
 
 func Style() *style {
 	return &style{
-		styles: nil,
-
 		noDefaultFonts: false,
 	}
 }
@@ -58,23 +55,11 @@ func (s *style) NoDefaultFonts() *style {
 	return s
 }
 
-func (s *style) WithCustom(style string) *style {
-	minified, err := m.String("text/css", style)
-	if err != nil {
-		panic(err)
-	}
-	s.styles = append(s.styles, minified)
-	return s
-}
-
 func (s *style) Render(w io.Writer) {
 	w.Write([]byte(`<style>`))
 	w.Write([]byte(baseCss))
 	if !s.noDefaultFonts {
 		w.Write([]byte(fontFamily))
-	}
-	for _, style := range s.styles {
-		w.Write([]byte(style))
 	}
 	w.Write([]byte(`</style>`))
 }
