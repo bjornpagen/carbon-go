@@ -8,8 +8,15 @@ import (
 	"github.com/tdewolff/minify/v2/css"
 )
 
+func init() {
+	BaseCss += baseGoCss
+}
+
 //go:embed css/base.css
 var BaseCss string
+
+//go:embed css/base-go.css
+var baseGoCss string
 
 //go:embed css/font-family.css
 var FontFamilyCss string
