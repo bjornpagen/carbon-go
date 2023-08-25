@@ -24991,53 +24991,36 @@ a.bx--navigation-link:focus {
 
 /* carbon-go styles */
 
-.bx-go--sm {
-	/* only show from 0px-672px */
+.bx-go--sm,
+.bx-go--md,
+.bx-go--lg,
+.bx-go--xlg,
+.bx-go--max {
 	display: none;
 }
 
-@media (max-width: 672px) {
+@media (max-width: 671px) {
 	.bx-go--sm {
 		display: block;
 	}
 }
 
-.bx-go--md {
-	/* only show from 672px-1056px */
-	display: none;
-}
-
-@media (min-width: 672px) and (max-width: 1056px) {
+@media (min-width: 672px) and (max-width: 1055px) {
 	.bx-go--md {
 		display: block;
 	}
 }
 
-.bx-go--lg {
-	/* only show from 1056px-1312px */
-	display: none;
-}
-
-@media (min-width: 1056px) and (max-width: 1312px) {
+@media (min-width: 1056px) and (max-width: 1311px) {
 	.bx-go--lg {
 		display: block;
 	}
 }
 
-.bx-go--xlg {
-	/* only show from 1312px-1584px */
-	display: none;
-}
-
-@media (min-width: 1312px) and (max-width: 1584px) {
+@media (min-width: 1312px) and (max-width: 1583px) {
 	.bx-go--xlg {
 		display: block;
 	}
-}
-
-.bx-go--max {
-	/* only show from 1584px+ */
-	display: none;
 }
 
 @media (min-width: 1584px) {
