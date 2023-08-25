@@ -1,8 +1,11 @@
 package carbon
 
-import "io"
+import (
+	"io"
+	"strings"
+)
 
-var breakpointClass = []string{"sm", "md", "lg", "xlg", "max"}
+var breakpointClass = []string{"bx-go--sm", "bx-go--md", "bx-go--lg", "bx-go--xlg", "bx-go--max"}
 
 type breakpoint struct {
 	attr []Attr
@@ -45,21 +48,36 @@ func (b *breakpoint) Max(max ...any) *breakpoint {
 
 // breakpoint renders all the components, and uses css to hide the ones that are not needed
 func (b *breakpoint) Render(w io.Writer) {
-	i := 0
 	w.Write([]byte(`<div`))
 	renderAttrs(w, b.attr)
 	w.Write([]byte(`>`))
 	{
-		for j := range b.breakpoints {
-			if b.breakpoints[j] != nil {
-				i = j
+		// starting with "sm", we render all the components
+		// breakpoints work until the next breakpoint is set, or until the end of the component slice
+		// so, a single "sm" component will be rendered for all breakpoints
+		// it will get the classes for every single breakpoint
+		// and it will be shown for every breakpoint
+		var classes []string
+		lastNotNil := -1
+		for i, c := range b.breakpoints {
+			if c != nil {
+				if lastNotNil != -1 {
+					w.Write([]byte(`<div class="`))
+					io.WriteString(w, strings.Join(classes, " "))
+					w.Write([]byte(`">`))
+					renderAny(w, b.breakpoints[lastNotNil])
+					w.Write([]byte(`</div>`))
+				}
+				lastNotNil = i
+				classes = nil
 			}
-			w.Write([]byte(`<div class="bx-go--`))
-			w.Write([]byte(breakpointClass[j]))
+			classes = append(classes, breakpointClass[i])
+		}
+		if lastNotNil != -1 {
+			w.Write([]byte(`<div class="`))
+			io.WriteString(w, strings.Join(classes, " "))
 			w.Write([]byte(`">`))
-			{
-				renderAny(w, b.breakpoints[i])
-			}
+			renderAny(w, b.breakpoints[lastNotNil])
 			w.Write([]byte(`</div>`))
 		}
 	}
