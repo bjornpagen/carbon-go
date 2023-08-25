@@ -3,7 +3,6 @@ module github.com/bjornpagen/carbon-go
 go 1.21.0
 
 require (
-	github.com/efficientgo/core v1.0.0-rc.2
 	github.com/sym01/htmlsanitizer v1.0.1
 	github.com/tdewolff/minify/v2 v2.12.8
 	github.com/valyala/bytebufferpool v1.0.0
