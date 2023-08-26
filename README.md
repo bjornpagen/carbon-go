@@ -41,3 +41,5 @@ TODO:
 - implement client side javascript for a few components
 - import icons on the fly and cache them server side instead of hardcoding them
 - automated testing against the react implemention to ensure markup generation parity:
+- remove id property from every single component object (also remove the id map for performance, use bloom filter)
+- 
