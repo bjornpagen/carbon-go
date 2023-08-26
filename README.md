@@ -35,3 +35,9 @@ we should try to keep upstream with the react version when possible. i just didn
 
 
 will be adding doc comments.
+
+TODO:
+- implement the rest of the components (copy button, textarea, etc...)
+- implement client side javascript for a few components
+- import icons on the fly and cache them server side instead of hardcoding them
+- automated testing against the react implemention to ensure markup generation parity:
