@@ -79,7 +79,11 @@ func (l *link) Render(w io.Writer) {
 		if l.visited {
 			w.Write([]byte(` bx--link--visited`))
 		}
-		w.Write([]byte(`">`))
+		w.Write([]byte(` `))
+		io.WriteString(w, getAttr(l.attr, "class"))
+		w.Write([]byte(`"`))
+		renderAttrsWithoutClass(w, l.attr)
+		w.Write([]byte(`>`))
 		{
 			renderAny(w, l.children)
 			if !l.inline && l.icon != nil {
@@ -103,12 +107,15 @@ func (l *link) Render(w io.Writer) {
 		w.Write([]byte(` bx--link--`))
 		io.WriteString(w, l.size)
 	}
+	w.Write([]byte(` `))
+	io.WriteString(w, getAttr(l.attr, "class"))
 	w.Write([]byte(`"`))
 	if l.href != "" {
 		w.Write([]byte(` href="`))
 		io.WriteString(w, l.href)
 		w.Write([]byte(`"`))
 	}
+	renderAttrsWithoutClass(w, l.attr)
 	w.Write([]byte(`>`))
 	{
 		renderAny(w, l.children)

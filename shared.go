@@ -101,6 +101,20 @@ func renderAttrs(w io.Writer, attrs []Attr) {
 	}
 }
 
+// TODO: deprecate hack
+func renderAttrsWithoutClass(w io.Writer, attrs []Attr) {
+	for _, attr := range attrs {
+		if attr.Name == "class" {
+			continue
+		}
+		w.Write([]byte(` `))
+		io.WriteString(w, attr.Name)
+		w.Write([]byte(`="`))
+		io.WriteString(w, attr.Value)
+		w.Write([]byte(`"`))
+	}
+}
+
 func getAttr(attrs []Attr, name string) string {
 	for _, attr := range attrs {
 		if attr.Name == name {
