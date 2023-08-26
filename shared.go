@@ -59,22 +59,8 @@ func ternary[T any](condition bool, a, b T) T {
 	return b
 }
 
-var usedIds map[string]bool
-
-func init() {
-	usedIds = make(map[string]bool)
-}
-
 func useId() string {
-	var id string
-	for {
-		id = randomString(36)
-		if usedIds[id] == false {
-			usedIds[id] = true
-			break
-		}
-	}
-	return id
+	return randomString(36)
 }
 
 func randomString(n int) string {

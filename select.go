@@ -14,7 +14,6 @@ type select_ struct {
 	inline      bool
 	light       bool
 	disabled    bool
-	id          string
 	name        string
 	invalid     bool
 	invalidText string
@@ -39,7 +38,6 @@ func Select(s ...*selectItem) *select_ {
 		inline:      false,
 		light:       false,
 		disabled:    false,
-		id:          "ccs-" + useId(),
 		name:        "",
 		invalid:     false,
 		invalidText: "",
@@ -84,11 +82,6 @@ func (s *select_) Light(light bool) *select_ {
 
 func (s *select_) Disabled(disabled bool) *select_ {
 	s.disabled = disabled
-	return s
-}
-
-func (s *select_) Id(id string) *select_ {
-	s.id = id
 	return s
 }
 
@@ -143,8 +136,9 @@ func (s *select_) Required(required bool) *select_ {
 }
 
 func (s *select_) Render(w io.Writer) {
-	errorId := `error-` + s.id
-	renderSelect := renderSelectClosure(s.invalid, s.disabled, s.required, errorId, s.id, s.name, s.size, s.selected, s.attrs, s.children)
+	id := "ccs-" + useId()
+	errorId := `error-` + id
+	renderSelect := renderSelectClosure(s.invalid, s.disabled, s.required, errorId, id, s.name, s.size, s.selected, s.attrs, s.children)
 
 	w.Write([]byte(`<div class="bx--form-item"><div class="bx--select`))
 	if s.inline {
@@ -166,7 +160,7 @@ func (s *select_) Render(w io.Writer) {
 	{
 		if !s.noLabel {
 			w.Write([]byte(`<label for="`))
-			io.WriteString(w, s.id)
+			io.WriteString(w, id)
 			w.Write([]byte(`" class="bx--label`))
 			if s.hideLabel {
 				w.Write([]byte(` bx--visually-hidden`))

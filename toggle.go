@@ -15,7 +15,6 @@ type toggle struct {
 	labelB    string
 	labelText string
 	hideLabel bool
-	id        string
 	name      string
 }
 
@@ -32,7 +31,6 @@ func Toggle() *toggle {
 		labelB:    "On",
 		labelText: "",
 		hideLabel: false,
-		id:        "ccs-" + useId(),
 		name:      "",
 	}
 }
@@ -87,6 +85,7 @@ func (t *toggle) Name(name string) *toggle {
 }
 
 func (t *toggle) Render(w io.Writer) {
+	id := "ccs-" + useId()
 	var ariaLabel string
 	if t.labelText != "" {
 		ariaLabel = t.labelText
@@ -104,7 +103,7 @@ func (t *toggle) Render(w io.Writer) {
 			io.WriteString(w, t.size)
 		}
 		w.Write([]byte(`" id="`))
-		io.WriteString(w, t.id)
+		io.WriteString(w, id)
 		w.Write([]byte(`"`))
 		if t.toggled {
 			w.Write([]byte(` checked`))
@@ -120,7 +119,7 @@ func (t *toggle) Render(w io.Writer) {
 		renderAttrs(w, t.attrs)
 		w.Write([]byte(` />`))
 		w.Write([]byte(`<label for="`))
-		io.WriteString(w, t.id)
+		io.WriteString(w, id)
 		w.Write([]byte(`" aria-label="`))
 		io.WriteString(w, ariaLabel)
 		w.Write([]byte(`" class="bx--toggle-input__label">`))

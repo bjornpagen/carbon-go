@@ -16,7 +16,6 @@ type textInput struct {
 	light       bool
 	disabled    bool
 	helperText  string
-	id          string
 	name        string
 	labelText   string
 	hideLabel   bool
@@ -42,7 +41,6 @@ func TextInput() *textInput {
 		light:       false,
 		disabled:    false,
 		helperText:  "",
-		id:          "ccs-" + useId(),
 		name:        "",
 		labelText:   "",
 		hideLabel:   false,
@@ -152,12 +150,13 @@ func (t *textInput) Fluid(v bool) *textInput {
 }
 
 func (t *textInput) Render(w io.Writer) {
+	id := "ccs-" + useId()
 	error := t.invalid && !t.readonly
-	helperId := "helper-" + t.id
-	errorId := "error-" + t.id
-	warnId := "warn-" + t.id
+	helperId := "helper-" + id
+	errorId := "error-" + id
+	warnId := "warn-" + id
 
-	renderLabelText := renderLabelTextClosure(t.id, t.hideLabel, t.disabled, t.inline, t.size, t.labelText)
+	renderLabelText := renderLabelTextClosure(id, t.hideLabel, t.disabled, t.inline, t.size, t.labelText)
 	renderHelperText := renderHelperTextClosure(t.disabled, t.inline, t.helperText)
 
 	w.Write([]byte(`<div class="bx--form-item bx--text-input-wrapper`))
@@ -235,7 +234,7 @@ func (t *textInput) Render(w io.Writer) {
 				w.Write([]byte(` disabled`))
 			}
 			w.Write([]byte(` id="`))
-			io.WriteString(w, t.id)
+			io.WriteString(w, id)
 			w.Write([]byte(`"`))
 			if t.name != "" {
 				w.Write([]byte(` name="`))

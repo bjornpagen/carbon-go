@@ -14,7 +14,6 @@ type checkbox struct {
 	hideLabel     bool
 	name          string
 	title         string
-	id            string
 }
 
 var _ Component = (*checkbox)(nil)
@@ -32,7 +31,6 @@ func Checkbox() *checkbox {
 		hideLabel:     false,
 		name:          "",
 		title:         "",
-		id:            "ccs-" + useId(),
 	}
 }
 
@@ -92,12 +90,8 @@ func (c *checkbox) Title(title string) *checkbox {
 	return c
 }
 
-func (c *checkbox) Id(id string) *checkbox {
-	c.id = id
-	return c
-}
-
 func (c *checkbox) Render(w io.Writer) {
+	id := "ccs-" + useId()
 	w.Write([]byte(`<div class="bx--form-item bx--checkbox-wrapper">`))
 	{
 		w.Write([]byte(`<input type="checkbox" value="`))
@@ -110,7 +104,7 @@ func (c *checkbox) Render(w io.Writer) {
 			w.Write([]byte(` disabled`))
 		}
 		w.Write([]byte(` id="`))
-		io.WriteString(w, c.id)
+		io.WriteString(w, id)
 		w.Write([]byte(`"`))
 		if c.name != "" {
 			w.Write([]byte(` name="`))
@@ -126,7 +120,7 @@ func (c *checkbox) Render(w io.Writer) {
 		w.Write([]byte(` class="bx--checkbox"`))
 		renderAttrs(w, c.attrs)
 		w.Write([]byte(`/><label for="`))
-		io.WriteString(w, c.id)
+		io.WriteString(w, id)
 		w.Write([]byte(`"`))
 		if c.title != "" {
 			w.Write([]byte(` title="`))
