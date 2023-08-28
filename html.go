@@ -25,12 +25,12 @@ func (h *html_) Attr(name string, value string) Component {
 	return h
 }
 
-func (h *html_) Head(head any) *html_ {
+func (h *html_) Head(head ...any) *html_ {
 	h.head = head
 	return h
 }
 
-func (h *html_) Body(body any) *html_ {
+func (h *html_) Body(body ...any) *html_ {
 	h.body = body
 	return h
 }

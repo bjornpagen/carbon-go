@@ -19,7 +19,7 @@ var BaseCss string
 var baseGoCss string
 
 //go:embed css/font-family.css
-var FontFamilyCss string
+var BaseFontCss string
 
 var m *minify.M
 
