@@ -31,7 +31,7 @@ type textInput struct {
 
 var _ Component = (*textInput)(nil)
 
-func TextInput() *textInput {
+func TextInput(labelText string) *textInput {
 	return &textInput{
 		attrs: nil,
 
@@ -42,7 +42,7 @@ func TextInput() *textInput {
 		disabled:    false,
 		helperText:  "",
 		name:        "",
-		labelText:   "",
+		labelText:   labelText,
 		hideLabel:   false,
 		invalid:     false,
 		invalidText: "",
@@ -96,11 +96,6 @@ func (t *textInput) HelperText(helperText string) *textInput {
 
 func (t *textInput) Name(name string) *textInput {
 	t.name = name
-	return t
-}
-
-func (t *textInput) LabelText(labelText string) *textInput {
-	t.labelText = labelText
 	return t
 }
 
