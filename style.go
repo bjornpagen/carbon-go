@@ -3,6 +3,7 @@ package carbon
 import (
 	_ "embed"
 	"io"
+	"net/http"
 
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/css"
@@ -21,11 +22,15 @@ var baseGoCss string
 //go:embed css/font-family.css
 var BaseFontCss string
 
-var m *minify.M
+var _m *minify.M
+var _styleCache map[string]string
 
 func init() {
-	m = minify.New()
-	m.AddFunc("text/css", css.Minify)
+	_m = minify.New()
+	_m.AddFunc("text/css", css.Minify)
+
+	// initialize style cache
+	_styleCache = make(map[string]string)
 }
 
 var _ Component = (*style)(nil)
@@ -36,10 +41,38 @@ type style struct {
 }
 
 func Style(s string) *style {
-	s, _ = m.String("text/css", s)
+	s, _ = _m.String("text/css", s)
 	return &style{
 		attr:  nil,
 		style: s,
+	}
+}
+
+func InlineStyle(href string) *style {
+	if s, ok := _styleCache[href]; ok {
+		return &style{
+			attr:  nil,
+			style: s,
+		}
+	}
+
+	r, err := http.Get(href)
+	if err != nil {
+		panic(err)
+	}
+	defer r.Body.Close()
+
+	s, err := io.ReadAll(r.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	minified, _ := _m.String("text/css", string(s))
+	_styleCache[href] = minified
+
+	return &style{
+		attr:  nil,
+		style: minified,
 	}
 }
 
