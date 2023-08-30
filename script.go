@@ -4,17 +4,11 @@ import (
 	_ "embed"
 	"io"
 	"net/http"
-
-	"github.com/tdewolff/minify/v2"
-	"github.com/tdewolff/minify/v2/js"
 )
 
 var _scriptCache map[string]string
 
 func init() {
-	_m = minify.New()
-	_m.AddFunc("text/javascript", js.Minify)
-
 	// initialize script cache
 	_scriptCache = make(map[string]string)
 }
@@ -48,17 +42,17 @@ func InlineScript(href string) *script {
 	}
 	defer r.Body.Close()
 
-	s, err := io.ReadAll(r.Body)
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		panic(err)
 	}
 
-	minified, _ := _m.String("text/css", string(s))
-	_scriptCache[href] = minified
+	s := string(b)
+	_scriptCache[href] = s
 
 	return &script{
 		attr:   nil,
-		script: minified,
+		script: s,
 	}
 }
 
