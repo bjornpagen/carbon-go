@@ -26,7 +26,7 @@ func SelectItem() *selectItem {
 	}
 }
 
-func (s *selectItem) Attr(name string, value string) Component {
+func (s *selectItem) Attr(name string, value string) *selectItem {
 	s.attrs = append(s.attrs, Attr{name, value})
 	return s
 }

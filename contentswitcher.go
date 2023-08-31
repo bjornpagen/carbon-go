@@ -25,7 +25,7 @@ func ContentSwitcher(cs ...*switch_) *contentSwitcher {
 	}
 }
 
-func (c *contentSwitcher) Attr(name string, value string) Component {
+func (c *contentSwitcher) Attr(name string, value string) *contentSwitcher {
 	c.attrs = append(c.attrs, Attr{name, value})
 	return c
 }

@@ -51,7 +51,7 @@ func Select(s ...*selectItem) *select_ {
 	}
 }
 
-func (s *select_) Attr(name string, value string) Component {
+func (s *select_) Attr(name string, value string) *select_ {
 	s.attrs = append(s.attrs, Attr{name, value})
 	return s
 }

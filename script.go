@@ -56,7 +56,7 @@ func InlineScript(href string) *script {
 	}
 }
 
-func (s *script) Attr(name string, value string) Component {
+func (s *script) Attr(name string, value string) *script {
 	s.attr = append(s.attr, Attr{name, value})
 	return s
 }

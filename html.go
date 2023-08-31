@@ -20,7 +20,7 @@ func Html() *html_ {
 	}
 }
 
-func (h *html_) Attr(name string, value string) Component {
+func (h *html_) Attr(name string, value string) *html_ {
 	h.attrs = append(h.attrs, Attr{name, value})
 	return h
 }

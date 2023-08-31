@@ -16,7 +16,7 @@ func ListItem(children ...any) *listItem {
 	}
 }
 
-func (l *listItem) Attr(name string, value string) Component {
+func (l *listItem) Attr(name string, value string) *listItem {
 	l.attrs = append(l.attrs, Attr{name, value})
 	return l
 }

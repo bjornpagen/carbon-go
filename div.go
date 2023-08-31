@@ -18,7 +18,7 @@ func Div(a ...any) *div {
 	}
 }
 
-func (d *div) Attr(name string, value string) Component {
+func (d *div) Attr(name string, value string) *div {
 	d.attrs = append(d.attrs, Attr{name, value})
 	return d
 }

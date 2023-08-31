@@ -60,7 +60,7 @@ func PasswordInput(labelText string) *passwordInput {
 	}
 }
 
-func (p *passwordInput) Attr(name string, value string) Component {
+func (p *passwordInput) Attr(name string, value string) *passwordInput {
 	p.attrs = append(p.attrs, Attr{name, value})
 	return p
 }

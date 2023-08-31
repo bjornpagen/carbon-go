@@ -31,7 +31,7 @@ func (a *accordionItem) Content(content ...any) *accordionItem {
 	return a
 }
 
-func (a *accordionItem) Attr(name string, value string) Component {
+func (a *accordionItem) Attr(name string, value string) *accordionItem {
 	a.attrs = append(a.attrs, Attr{name, value})
 	return a
 }

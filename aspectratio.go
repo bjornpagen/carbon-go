@@ -22,7 +22,7 @@ func AspectRatio(cs ...Component) *aspectRatio {
 	}
 }
 
-func (a *aspectRatio) Attr(name string, value string) Component {
+func (a *aspectRatio) Attr(name string, value string) *aspectRatio {
 	a.attrs = append(a.attrs, Attr{name, value})
 	return a
 }

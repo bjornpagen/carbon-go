@@ -18,7 +18,7 @@ func Section(a ...any) *section {
 	}
 }
 
-func (s *section) Attr(name string, value string) Component {
+func (s *section) Attr(name string, value string) *section {
 	s.attrs = append(s.attrs, Attr{name, value})
 	return s
 }

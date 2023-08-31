@@ -18,7 +18,7 @@ func P(a ...any) *p {
 	}
 }
 
-func (d *p) Attr(name string, value string) Component {
+func (d *p) Attr(name string, value string) *p {
 	d.attrs = append(d.attrs, Attr{name, value})
 	return d
 }

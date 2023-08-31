@@ -31,7 +31,7 @@ func Link(children ...any) *link {
 	}
 }
 
-func (l *link) Attr(name string, value string) Component {
+func (l *link) Attr(name string, value string) *link {
 	l.attr = append(l.attr, Attr{name, value})
 	return l
 }

@@ -16,7 +16,7 @@ type button struct {
 	size             string
 	expressive       bool
 	isSelected       bool
-	icon             Component
+	icon             *iconComponent
 	iconDescription  string
 	tooltipAlignment string
 	tooltipPosition  string
@@ -46,7 +46,7 @@ func Button(children ...any) *button {
 	}
 }
 
-func (b *button) Attr(name string, value string) Component {
+func (b *button) Attr(name string, value string) *button {
 	b.attrs = append(b.attrs, Attr{name, value})
 	return b
 }
@@ -81,7 +81,7 @@ func (b *button) Selected(v bool) *button {
 	return b
 }
 
-func (b *button) Icon(icon Component) *button {
+func (b *button) Icon(icon *iconComponent) *button {
 	b.icon = icon
 	return b
 }
@@ -222,7 +222,7 @@ func (b *button) Render(w io.Writer) {
 	w.Write([]byte("</button>"))
 }
 
-func renderIconInButtonClosure(icon Component, description string) func(w io.Writer) {
+func renderIconInButtonClosure(icon *iconComponent, description string) func(w io.Writer) {
 	if icon == nil {
 		return func(w io.Writer) {}
 	}

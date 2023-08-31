@@ -24,7 +24,7 @@ func Switch(text string) *switch_ {
 	}
 }
 
-func (s *switch_) Attr(name string, value string) Component {
+func (s *switch_) Attr(name string, value string) *switch_ {
 	s.attrs = append(s.attrs, Attr{name, value})
 	return s
 }

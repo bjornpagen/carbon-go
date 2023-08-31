@@ -19,7 +19,7 @@ func BreadcrumbItem(children ...any) *breadcrumbItem {
 	}
 }
 
-func (b *breadcrumbItem) Attr(name string, value string) Component {
+func (b *breadcrumbItem) Attr(name string, value string) *breadcrumbItem {
 	b.attr = append(b.attr, Attr{name, value})
 	return b
 }

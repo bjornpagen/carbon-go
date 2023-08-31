@@ -35,7 +35,7 @@ func Toggle() *toggle {
 	}
 }
 
-func (t *toggle) Attr(name string, value string) Component {
+func (t *toggle) Attr(name string, value string) *toggle {
 	t.attrs = append(t.attrs, Attr{name, value})
 	return t
 }

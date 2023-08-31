@@ -32,7 +32,7 @@ func Header() *header {
 	}
 }
 
-func (h *header) Attr(name string, value string) Component {
+func (h *header) Attr(name string, value string) *header {
 	h.attrs = append(h.attrs, Attr{name, value})
 	return h
 }

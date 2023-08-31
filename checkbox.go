@@ -34,7 +34,7 @@ func Checkbox() *checkbox {
 	}
 }
 
-func (c *checkbox) Attr(name string, value string) Component {
+func (c *checkbox) Attr(name string, value string) *checkbox {
 	c.attrs = append(c.attrs, Attr{name, value})
 	return c
 }

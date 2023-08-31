@@ -35,7 +35,7 @@ func (i *iconComponent) Title(title string) *iconComponent {
 	return i
 }
 
-func (i *iconComponent) Attr(name string, value string) Component {
+func (i *iconComponent) Attr(name string, value string) *iconComponent {
 	i.attrs = append(i.attrs, Attr{name, value})
 	return i
 }

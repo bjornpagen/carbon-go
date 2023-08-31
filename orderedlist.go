@@ -24,7 +24,7 @@ func OrderedList(children ...any) *orderedList {
 	}
 }
 
-func (o *orderedList) Attr(name string, value string) Component {
+func (o *orderedList) Attr(name string, value string) *orderedList {
 	o.attrs = append(o.attrs, Attr{name, value})
 	return o
 }

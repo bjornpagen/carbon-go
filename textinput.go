@@ -55,7 +55,7 @@ func TextInput(labelText string) *textInput {
 	}
 }
 
-func (t *textInput) Attr(name string, value string) Component {
+func (t *textInput) Attr(name string, value string) *textInput {
 	t.attrs = append(t.attrs, Attr{name, value})
 	return t
 }

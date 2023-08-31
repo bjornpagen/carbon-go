@@ -21,7 +21,7 @@ func Breakpoint(sm ...any) *breakpoint {
 	}
 }
 
-func (b *breakpoint) Attr(name string, value string) Component {
+func (b *breakpoint) Attr(name string, value string) *breakpoint {
 	b.attr = append(b.attr, Attr{name, value})
 	return b
 }

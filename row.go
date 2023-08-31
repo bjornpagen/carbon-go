@@ -30,7 +30,7 @@ func Row(a ...any) *row {
 	}
 }
 
-func (r *row) Attr(name string, value string) Component {
+func (r *row) Attr(name string, value string) *row {
 	r.attrs = append(r.attrs, Attr{name, value})
 	return r
 }

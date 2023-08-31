@@ -28,7 +28,7 @@ func ClickableTile(children ...any) *clickableTile {
 	}
 }
 
-func (c *clickableTile) Attr(name string, value string) Component {
+func (c *clickableTile) Attr(name string, value string) *clickableTile {
 	c.attrs = append(c.attrs, Attr{name, value})
 	return c
 }

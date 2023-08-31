@@ -32,7 +32,7 @@ func Grid(c ...*column) *grid {
 	}
 }
 
-func (g *grid) Attr(name string, value string) Component {
+func (g *grid) Attr(name string, value string) *grid {
 	g.attrs = append(g.attrs, Attr{name, value})
 	return g
 }

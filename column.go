@@ -45,7 +45,7 @@ func Column(c ...*row) *column {
 	}
 }
 
-func (c *column) Attr(name string, value string) Component {
+func (c *column) Attr(name string, value string) *column {
 	c.attrs = append(c.attrs, Attr{name, value})
 	return c
 }

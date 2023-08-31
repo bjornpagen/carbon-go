@@ -20,7 +20,7 @@ func ButtonSet(children ...*button) *buttonSet {
 	}
 }
 
-func (b *buttonSet) Attr(name string, value string) Component {
+func (b *buttonSet) Attr(name string, value string) *buttonSet {
 	b.attrs = append(b.attrs, Attr{name, value})
 	return b
 }

@@ -22,7 +22,7 @@ func UnorderedList(children ...any) *unorderedList {
 	}
 }
 
-func (u *unorderedList) Attr(name string, value string) Component {
+func (u *unorderedList) Attr(name string, value string) *unorderedList {
 	u.attrs = append(u.attrs, Attr{name, value})
 	return u
 }

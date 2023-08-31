@@ -16,7 +16,7 @@ func Content(a ...any) *content {
 	}
 }
 
-func (c *content) Attr(name string, value string) Component {
+func (c *content) Attr(name string, value string) *content {
 	c.attrs = append(c.attrs, Attr{name, value})
 	return c
 }

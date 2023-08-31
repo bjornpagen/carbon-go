@@ -27,7 +27,7 @@ func Accordion(cs ...*accordionItem) *accordion {
 	}
 }
 
-func (a *accordion) Attr(name string, value string) Component {
+func (a *accordion) Attr(name string, value string) *accordion {
 	a.attrs = append(a.attrs, Attr{name, value})
 	return a
 }

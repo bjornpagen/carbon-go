@@ -76,7 +76,7 @@ func InlineStyle(href string) *style {
 	}
 }
 
-func (s *style) Attr(name string, value string) Component {
+func (s *style) Attr(name string, value string) *style {
 	s.attr = append(s.attr, Attr{name, value})
 	return s
 }
